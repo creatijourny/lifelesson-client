@@ -41,7 +41,7 @@ export default function Navbar() {
                             className="object-contain" />
 
                         <h1 className="text-3xl font-extrabold tracking-tight">
-                            <span className="text-sky-500">life</span>
+                            <span className="text-sky-500">life </span>
                             <span className="text-orange-500">lessons</span>
                         </h1>
 
