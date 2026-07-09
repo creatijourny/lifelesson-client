@@ -6,8 +6,9 @@ import { useState } from "react";
 import { Button } from "@heroui/react";
 import { Bars, Xmark, Person, BookOpen } from "@gravity-ui/icons";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
-const navLinks = [
+const publicLinks = [
     {
         title: "Home",
         href: "/",
@@ -15,19 +16,51 @@ const navLinks = [
     {
         title: "Public Lessons",
         href: "/lessons",
-    },
-    {
-        title: "Pricing / Upgrade",
-        href: "/pricing",
-    },
+    },    
 ];
+
+
 
 export default function Navbar() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
+    
+
+    const navLinks = [...publicLinks];
+
+    const { data: session, isPending } = authClient.useSession();
+
+    const isLoggedIn = !!session;
+  const user = session?.user;
+    
+
+if (isLoggedIn) {
+  navLinks.splice(1, 0,
+    {
+      title: "Add Lesson",
+      href: "/dashboard/add-lesson",
+    },
+    {
+      title: "My Lessons",
+      href: "/dashboard/my-lessons",
+    }
+  );
+
+  if (user.plan === "free") {
+    navLinks.push({
+      title: "Pricing / Upgrade",
+      href: "/pricing",
+    });
+  }
+}
+
+const handleSignOut = async () => {
+    await authClient.signOut();
+  }
+
     return (
-        <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200">
+        <header className="sticky top-0 z-50 bg-[#1f1f1f] shadow-sm border-b border-zinc-800">
             <nav className="max-w-7xl mx-auto flex items-center justify-between h-20 px-5 lg:px-8">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3">
@@ -69,7 +102,7 @@ export default function Navbar() {
                                 href={item.href}
                                 className={`relative pb-2 font-medium transition ${pathname === item.href
                                     ? "text-indigo-600"
-                                    : "text-slate-600 hover:text-indigo-600"
+                                    : "text-zinc-400 hover:text-indigo-600"
                                     }`}
                             >
                                 {item.title}
@@ -84,25 +117,51 @@ export default function Navbar() {
 
                 {/* Desktop Buttons */}
                 <div className="hidden lg:flex items-center gap-3">
-                    <Button
-                        as={Link}
-                        href="/login"
+                    {!isLoggedIn ? ( <>
+                    <Link href="/login">
+                    <Button                       
+                        
                         variant="bordered"
                         radius="sm"
                         startContent={<Person className="h-4 w-4" />}
                         className="border-slate-300"
                     >
-                        Login
+                        Sign in
                     </Button>
+                    </Link>
 
+                    <Link href="/sign-up">
                     <Button
-                        as={Link}
-                        href="/signup"
+                        
+                        
                         color="primary"
                         radius="sm"
                     >
-                        Signup
+                        Sign up
                     </Button>
+                    </Link>
+                    </> ) : (
+                        <>
+                        <Link href="/dashboard">
+        <Button
+          variant="bordered"
+          onPress={() => setOpen(false)}
+        >
+          Dashboard
+        </Button>
+      </Link>
+      <div className="font-bold text-orange-500">
+        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+      </div>
+
+      <Button onClick={handleSignOut}
+        color="danger"
+        variant="flat"
+      >
+        Logout
+      </Button>
+      </>
+     )}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -138,24 +197,48 @@ export default function Navbar() {
                         ))}
 
                         <div className="pt-3 border-t flex flex-col gap-3">
-                            <Button
-                                as={Link}
-                                href="/login"
+                            {!isLoggedIn ? (
+                                <>
+                                 <Link href="/login">
+                            <Button 
                                 variant="bordered"
                                 startContent={<Person className="h-4 w-4" />}
                                 onPress={() => setOpen(false)}
                             >
                                 Login
                             </Button>
+                            </Link>
 
+                            <Link href="/sign-up">
                             <Button
-                                as={Link}
-                                href="/signup"
                                 color="primary"
                                 onPress={() => setOpen(false)}
                             >
-                                Signup
+                                Sign up
                             </Button>
+                            </Link>
+                            </> ) : (
+                                <>
+      <Link href="/dashboard">
+        <Button
+          variant="bordered"
+          onPress={() => setOpen(false)}
+        >
+          Dashboard
+        </Button>
+      </Link>
+      <div className="font-bold text-orange-500">
+        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+      </div>
+
+      <Button onClick={handleSignOut}
+        color="danger"
+        variant="flat"
+      >
+        Logout
+      </Button>
+    </>
+                            )})
                         </div>
                     </ul>
                 </div>
