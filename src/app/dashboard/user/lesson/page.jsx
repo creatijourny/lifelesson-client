@@ -3,7 +3,7 @@ import React from 'react';
 const UsersLifeLesson = () => {
     return (
         <div>
-            Life lessons
+            All Life lessons
         </div>
     );
 };
