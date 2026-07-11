@@ -14,7 +14,7 @@ import {
   Switch 
 } from "@heroui/react";
 import { ArrowUpRight, CloudArrowUpIn } from "@gravity-ui/icons";
-import { createLesson } from "@/lib/actions/lessons";
+import { createLesson, getLessons } from "@/lib/actions/lessons";
 import { toast } from "react-toastify";
 import Image from "next/image";
 
@@ -110,7 +110,7 @@ const handleImageChange = (e) => {
       setIsPending(false);
     }
 
-     const res = await createLesson(safePayload);
+     const res = await getLessons(safePayload);
     if(res.insertedId){
         toast.success("Lesson posted successfully!");
         form.reset();

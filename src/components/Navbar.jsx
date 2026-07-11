@@ -16,7 +16,7 @@ const publicLinks = [
     {
         title: "Public Lessons",
         href: "/lessons",
-    },    
+    },
 ];
 
 
@@ -25,66 +25,66 @@ export default function Navbar() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
-    
+
 
     const navLinks = [...publicLinks];
 
     const { data: session, isPending } = authClient.useSession();
 
     const isLoggedIn = !!session;
-  const user = session?.user;
-    
+    const user = session?.user;
 
-if (isLoggedIn) {
-  navLinks.splice(1, 0,
-    {
-      title: "Add Lesson",
-      href: "/dashboard/add-lesson",
-    },
-    {
-      title: "My Lessons",
-      href: "/dashboard/my-lessons",
+
+    if (isLoggedIn) {
+        navLinks.splice(1, 0,
+            {
+                title: "Add Lesson",
+                href: "/dashboard/add-lesson",
+            },
+            {
+                title: "My Lessons",
+                href: "/dashboard/my-lessons",
+            }
+        );
+
+        if (user.plan === "free") {
+            navLinks.push({
+                title: "Pricing / Upgrade",
+                href: "/pricing",
+            });
+        }
     }
-  );
 
-  if (user.plan === "free") {
-    navLinks.push({
-      title: "Pricing / Upgrade",
-      href: "/pricing",
-    });
-  }
-}
-
-const handleSignOut = async () => {
-    await authClient.signOut();
-  }
+    const handleSignOut = async () => {
+        await authClient.signOut();
+    }
 
     return (
-        <header className="sticky top-0 z-50 bg-[#1f1f1f] shadow-sm border-b border-zinc-800">
+        <header className="sticky top-0 z-50 bg-[#FFFFFF] shadow-sm border-b border-zinc-50">
             <nav className="max-w-7xl mx-auto flex items-center justify-between h-20 px-5 lg:px-8">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3">
-                    
-                        <Image
-                            src="/lifelogo.png"
-                            alt="Life Lessons Logo"
-                            width={40}
-                            height={40}
-                            priority
-                            className="object-contain" />
 
-                        <h1 className="text-3xl font-extrabold tracking-tight">
-                            <span className="text-sky-500">life </span>
-                            <span className="text-orange-500">lessons</span>
-                        </h1>
+                    <Image
+                        src="/lifelogo.png"
+                        alt="Life Lessons Logo"
+                        width={40}
+                        height={40}
+                        priority
+                        className="object-contain" />
 
-                        {/* <Link href="/" className="shrink-0">
+                    <h1 className="text-3xl font-extrabold tracking-tight">
+                        <span className="text-sky-500">life </span>
+                        <span className="text-orange-500">lessons</span>
+                    </h1>
+
+                    {/* <Link href="/" className="shrink-0">
                             <h1 className="text-3xl font-extrabold tracking-tight">
                                 <span className="text-sky-500">hire</span>
                                 <span className="text-orange-500">loop</span>
                             </h1>
                         </Link> */}
-                    
+
 
                     {/* <div className="leading-none">
                         <h2 className="font-bold text-xl text-slate-800">
@@ -117,51 +117,59 @@ const handleSignOut = async () => {
 
                 {/* Desktop Buttons */}
                 <div className="hidden lg:flex items-center gap-3">
-                    {!isLoggedIn ? ( <>
-                    <Link href="/login">
-                    <Button                       
-                        
-                        variant="bordered"
-                        radius="sm"
-                        startContent={<Person className="h-4 w-4" />}
-                        className="border-slate-300"
-                    >
-                        Sign in
-                    </Button>
-                    </Link>
+                    {!isLoggedIn ? (<>
+                        <Link href="/login">
+                            <Button
 
-                    <Link href="/sign-up">
-                    <Button
-                        
-                        
-                        color="primary"
-                        radius="sm"
-                    >
-                        Sign up
-                    </Button>
-                    </Link>
-                    </> ) : (
+                                variant="bordered"
+                                radius="sm"
+                                startContent={<Person className="h-4 w-4" />}
+                                className="border-slate-300"
+                            >
+                                Sign in
+                            </Button>
+                        </Link>
+
+                        <Link href="/sign-up">
+                            <Button
+
+
+                                color="primary"
+                                radius="sm"
+                            >
+                                Sign up
+                            </Button>
+                        </Link>
+                    </>) : (
                         <>
-                        <Link href="/dashboard">
-        <Button
-          variant="bordered"
-          onPress={() => setOpen(false)}
-        >
-          Dashboard
-        </Button>
-      </Link>
-      <div className="font-bold text-orange-500">
-        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
-      </div>
+                            <Link href="/dashboard">
+                                <Button
+                                    variant="bordered"
+                                    onPress={() => setOpen(false)}
+                                >
+                                    Dashboard
+                                </Button>
+                            </Link>
+                            {/* <div className="font-bold text-orange-500">
+                                {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                            </div> */}
+                            <div>
+                                {/* <p className="font-semibold">{user?.name}</p> */}
+                                <p className="text-sm text-orange-500">
+                                    {user?.role
+                                        ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
+                                        : ""}
+                                </p>
+                            </div>
 
-      <Button onClick={handleSignOut}
-        color="danger"
-        variant="flat"
-      >
-        Logout
-      </Button>
-      </>
-     )}
+                            <Button onClick={handleSignOut}
+                                color="danger"
+                                variant="flat"
+                            >
+                                Logout
+                            </Button>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -199,45 +207,45 @@ const handleSignOut = async () => {
                         <div className="pt-3 border-t flex flex-col gap-3">
                             {!isLoggedIn ? (
                                 <>
-                                 <Link href="/login">
-                            <Button 
-                                variant="bordered"
-                                startContent={<Person className="h-4 w-4" />}
-                                onPress={() => setOpen(false)}
-                            >
-                                Login
-                            </Button>
-                            </Link>
+                                    <Link href="/login">
+                                        <Button
+                                            variant="bordered"
+                                            startContent={<Person className="h-4 w-4" />}
+                                            onPress={() => setOpen(false)}
+                                        >
+                                            Login
+                                        </Button>
+                                    </Link>
 
-                            <Link href="/sign-up">
-                            <Button
-                                color="primary"
-                                onPress={() => setOpen(false)}
-                            >
-                                Sign up
-                            </Button>
-                            </Link>
-                            </> ) : (
+                                    <Link href="/sign-up">
+                                        <Button
+                                            color="primary"
+                                            onPress={() => setOpen(false)}
+                                        >
+                                            Sign up
+                                        </Button>
+                                    </Link>
+                                </>) : (
                                 <>
-      <Link href="/dashboard">
-        <Button
-          variant="bordered"
-          onPress={() => setOpen(false)}
-        >
-          Dashboard
-        </Button>
-      </Link>
-      <div className="font-bold text-orange-500">
-        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
-      </div>
+                                    <Link href="/dashboard">
+                                        <Button
+                                            variant="bordered"
+                                            onPress={() => setOpen(false)}
+                                        >
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                    <div className="font-bold text-orange-500">
+                                        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                                    </div>
 
-      <Button onClick={handleSignOut}
-        color="danger"
-        variant="flat"
-      >
-        Logout
-      </Button>
-    </>
+                                    <Button onClick={handleSignOut}
+                                        color="danger"
+                                        variant="flat"
+                                    >
+                                        Logout
+                                    </Button>
+                                </>
                             )})
                         </div>
                     </ul>
