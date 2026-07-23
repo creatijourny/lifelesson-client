@@ -1,43 +1,63 @@
-'use client';
+import React from 'react';
 
-import ActiveContributors from '@/components/dashboard/ActiveContributors';
-import LessonGrowthChart from '@/components/dashboard/LessonGrowthChart';
-import StatsCards from '@/components/dashboard/StatsCards';
-import UserGrowthChart from '@/components/dashboard/UserGrowthChart';
-import { useSession } from '@/lib/auth-client';
-// import { Calendar, BookOpen, Flag, StarFill, PersonPencil, Persons } from '@gravity-ui/icons';
-import { Spinner } from '@heroui/react';
-
-
-const AdminDashboardPage = () => {
-
-  const { data: session, isPending } = useSession();
-
-  if (isPending) {
-    return <div className="flex flex-col items-center gap-2">
-      <Spinner color="success" />
-      <span className="text-xs text-muted">Success</span>
-    </div>
-  }
-  const user = session?.user;
+const AdminDashboard = () => {
   return (
-    <div className='space-y-5'>
-      <h2 className='text-2xl font-medium'>Welcome, {user?.name}</h2>
-      <h1 className="text-3xl font-bold">Dashboard Overview</h1>
-        <p className="mt-2 text-default-500">
-          Monitor your platform statistics and activity.
-        </p>
-      <StatsCards />
-
-    <div className="grid gap-6 lg:grid-cols-2">
-        <LessonGrowthChart />
-        <UserGrowthChart />
-      </div>
-     
-      <ActiveContributors />
-
+    <div>
+      <h2>Admin dashboard page</h2>
     </div>
-    // <div>
+  );
+};
+
+export default AdminDashboard;
+
+
+// 'use client';
+
+// import ActiveContributors from '@/components/dashboard/ActiveContributors';
+// import LessonGrowthChart from '@/components/dashboard/LessonGrowthChart';
+// import StatsCards from '@/components/dashboard/StatsCards';
+// import UserGrowthChart from '@/components/dashboard/UserGrowthChart';
+// import { useSession } from '@/lib/auth-client';
+// // import { Calendar, BookOpen, Flag, StarFill, PersonPencil, Persons } from '@gravity-ui/icons';
+// import { Spinner } from '@heroui/react';
+
+
+// const AdminDashboardHome = () => {
+
+//   const { data: session, isPending } = useSession();
+
+//   if (isPending) {
+//     return <div className="flex flex-col items-center gap-2">
+//       <Spinner color="success" />
+//       <span className="text-xs text-muted">Success</span>
+//     </div>
+//   }
+//   const user = session?.user;
+//   return (
+//     <div className='space-y-5'>
+//       <h2 className='text-2xl font-medium'>Welcome, {user?.name}</h2>
+//       <h1 className="text-3xl font-bold">Dashboard Overview</h1>
+//         <p className="mt-2 text-default-500">
+//           Monitor your platform statistics and activity.
+//         </p>
+//       <StatsCards />
+
+//     <div className="grid gap-6 lg:grid-cols-2">
+//         <LessonGrowthChart />
+//         <UserGrowthChart />
+//       </div>
+     
+//       <ActiveContributors />
+
+//     </div>   
+
+//   );
+// };
+
+// export default AdminDashboardHome;
+
+
+ // <div>
     //   <h2 className='text-2xl font-medium'>Welcome, {user?.name}</h2>
 
       
@@ -208,9 +228,4 @@ const AdminDashboardPage = () => {
     //   </div>
 
     // </div>
-
-  );
-};
-
-export default AdminDashboardPage;
 

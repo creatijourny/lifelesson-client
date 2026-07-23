@@ -1,25 +1,31 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  Form, 
-  Fieldset, 
-  Input, 
-  TextArea, 
-  Select, 
+import {
+  Form,
+  Fieldset,
+  Input,
+  TextArea,
+  Select,
   Label,
   ListBox,
-  Button, 
-  Tooltip, 
-  Switch 
+  Button,
+  Tooltip,
+  Switch
 } from "@heroui/react";
 import { ArrowUpRight, CloudArrowUpIn } from "@gravity-ui/icons";
 import { createLesson, getLessons } from "@/lib/actions/lessons";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import Link from "next/link";
+import { uploadImage } from "@/lib/imageUpload";
+import { authClient } from "@/lib/auth-client";
+
 
 export default function AddLessonPage() {
-  const [isPremiumUser] = useState(false); 
+  
+  const { data: session } = authClient.useSession();
+  const [isPremiumUser] = useState(false);
   const [errors, setErrors] = useState({});
   const [isPending, setIsPending] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
@@ -39,33 +45,37 @@ export default function AddLessonPage() {
     { key: "gratitude", label: "Gratitude" },
   ];
 
-//   image
-const [image, setImage] = useState(null);
-const [preview, setPreview] = useState("");
+  //   image
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState("");
 
-const handleImageChange = (e) => {
-  const file = e.target.files?.[0];
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
 
-  if (!file) return;
+    if (!file) return;
 
-  setImage(file);
-  setPreview(URL.createObjectURL(file));
-};
-// image end
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+  };
+  // image end
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!session?.user){
+      return;
+    }
     setIsPending(true);
     setErrors({});
 
     const formData = new FormData(e.currentTarget);
-    
+
     const title = formData.get("title");
     const description = formData.get("description");
     const category = formData.get("category");
     const tone = formData.get("tone");
     formData.append("image", image);
-    
+
     const newErrors = {};
     if (!title) newErrors.title = "Please provide a powerful title.";
     if (!description || description.length < 20) {
@@ -80,15 +90,28 @@ const handleImageChange = (e) => {
       return;
     }
 
+
+    let imageUrl = "";
+
+    if (image) {
+      imageUrl = await uploadImage(image);
+    }
+
     const safePayload = {
       title,
       description,
       category,
       tone,
-      image,
-    //   image: formData.get("image"),
+      imageUrl,
+        image: formData.get("image"),
       visibility: isPublic ? "Public" : "Private",
       accessLevel: isPremiumUser ? formData.get("accessLevel") : "Free",
+
+      authorId: session.user.id,
+      authorName: session.user.name,
+      authorImage: session.user.image,
+      authorPremium: session.user.isPremium || false,
+
     };
 
     // const res = await createLesson(safePayload);
@@ -99,26 +122,47 @@ const handleImageChange = (e) => {
 
     const form = e.currentTarget;
 
+    // try {
+    //   console.log("Submitting Lesson Data:", safePayload);
+    //   await new Promise((resolve) => setTimeout(resolve, 1000));
+    //     toast.success("Lesson posted successfully!");
+    //   //   alert("Your wisdom has been shared successfully!");
+    // } catch (error) {
+    //   console.error(error);
+    // } finally {
+    //   setIsPending(false);
+    // }
+
+    // new code start
     try {
-      console.log("Submitting Lesson Data:", safePayload);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    //   toast.success("Lesson posted successfully!");
-    //   alert("Your wisdom has been shared successfully!");
+      const res = await createLesson(safePayload);
+
+      if (res.insertedId) {
+        toast.success("Lesson posted successfully!");
+
+        // form.reset();
+        setImage(null);
+        setPreview("");
+      }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to publish lesson.");
     } finally {
       setIsPending(false);
     }
 
-     const res = await getLessons(safePayload);
-    if(res.insertedId){
-        toast.success("Lesson posted successfully!");
-        form.reset();
-        setImage(null);
-        setPreview("");
-        // e.currentTarget.reset();
+    // new code end
 
-    }
+    // const res = await createLesson(safePayload);
+    // // const res = await getLessons(safePayload);
+    // if (res.insertedId) {
+    //   toast.success("Lesson posted successfully!");
+    //   form.reset();
+    //   setImage(null);
+    //   setPreview("");
+    //   // e.currentTarget.reset();
+
+    // }
 
   };
 
@@ -156,20 +200,21 @@ const handleImageChange = (e) => {
           </div>
         </Tooltip>
       );
-    }     
+    }
 
     return selectComponent;
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    // className="max-w-2xl mx-auto px-4 py-8"
+    <div className="max-w-2xl mx-auto px-4 py-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight">Share Your Wisdom</h1>
         <p className="text-default-500 text-sm">Pass down a meaningful life lesson to help others grow.</p>
       </div>
 
-      <Form 
-        validationErrors={errors} 
+      <Form
+        validationErrors={errors}
         onSubmit={handleSubmit}
         className="w-full space-y-6"
       >
@@ -181,12 +226,12 @@ const handleImageChange = (e) => {
             placeholder="e.g., What 5 Years of Failure Taught Me About Resilience"
             variant="bordered"
             required
-            // errorMessage={errors.title}
+          // errorMessage={errors.title}
           />
 
           {/* Category & Tone Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
+
             {/* Category Dropdown */}
             <Select name="category" isRequired className="w-full">
               <Label>Category</Label>
@@ -233,10 +278,10 @@ const handleImageChange = (e) => {
             variant="bordered"
             rows={6}
             required
-            // errorMessage={errors.description}
+          // errorMessage={errors.description}
           />
 
-          {/* Image */}
+          {/* Image1 start */}
           {/* <div className="w-full">
             <label className="block text-sm font-medium text-default-700 mb-2">
               Cover Image (Optional)
@@ -247,63 +292,63 @@ const handleImageChange = (e) => {
                   <CloudArrowUpIn className="w-6 h-6 mb-2" />
                   <p className="text-xs">Click to upload an image asset</p>
                 </div>
-                <input type="file" name="image" accept="image/*" className="hidden" />
+                <input type="url" name="image" accept="image/*" className="hidden" />
               </label>
             </div>
           </div> */}
 
-          {/* image */}
-            <div className="w-full">
-  <label className="block mb-2 text-sm font-medium text-default-700">
-    Cover Image (Optional)
-  </label>
+          {/* image start */}
+          <div className="w-full">
+            <label className="block mb-2 text-sm font-medium text-default-700">
+              Cover Image (Optional)
+            </label>
 
-  <label
-    htmlFor="lesson-image"
-    className="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-default-300 transition-colors hover:border-primary hover:bg-default-50"
-  >
-    {preview ? (
-      <div className="flex h-full w-full flex-col items-center justify-center p-3">
-        <Image
-          src={preview}
-          alt="Preview"
-          width={120}
-            height={120}
-          className="h-28 w-28 rounded-lg object-cover"
-        />
+            <label
+              htmlFor="lesson-image"
+              className="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-default-300 transition-colors hover:border-primary hover:bg-default-50"
+            >
+              {preview ? (
+                <div className="flex h-full w-full flex-col items-center justify-center p-3">
+                  <Image
+                    src={preview}
+                    alt="title"
+                    width={120}
+                    height={120}
+                    className="h-28 w-28 rounded-lg object-cover"
+                  />
 
-        <p className="mt-3 text-sm font-medium text-primary">
-          {image?.name}
-        </p>
+                  <p className="mt-3 text-sm font-medium text-primary">
+                    {image?.name}
+                  </p>
 
-        <span className="text-xs text-default-500">
-          Click to change image
-        </span>
-      </div>
-    ) : (
-      <div className="flex flex-col items-center text-default-500">
-        <CloudArrowUpIn className="mb-3 h-8 w-8" />
+                  <span className="text-xs text-default-500">
+                    Click to change image
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center text-default-500">
+                  <CloudArrowUpIn className="mb-3 h-8 w-8" />
 
-        <p className="text-sm font-medium">
-          Click to upload a cover image
-        </p>
+                  <p className="text-sm font-medium">
+                    Click to upload a cover image
+                  </p>
 
-        <span className="mt-1 text-xs">
-          PNG, JPG, JPEG (Max 5MB)
-        </span>
-      </div>
-    )}
+                  <span className="mt-1 text-xs">
+                    PNG, JPG, JPEG (Max 5MB)
+                  </span>
+                </div>
+              )}
 
-    <input
-      id="lesson-image"
-      type="file"
-      name="image"
-      accept="image/png,image/jpeg,image/jpg"
-      className="hidden"
-      onChange={handleImageChange}
-    />
-  </label>
-</div>
+              <input
+                id="lesson-image"
+                type="file"
+                name="image"
+                accept="image/png,image/jpeg,image/jpg"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
           {/* image end */}
 
           <hr className="border-default-100 my-2" />
@@ -312,8 +357,8 @@ const handleImageChange = (e) => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex flex-col gap-1">
               <span className="text-sm font-medium">Visibility Settings</span>
-              <Switch 
-                isSelected={isPublic} 
+              <Switch
+                isSelected={isPublic}
                 onValueChange={setIsPublic}
                 size="sm"
               >
@@ -327,12 +372,14 @@ const handleImageChange = (e) => {
         </Fieldset>
 
         <div className="flex justify-end gap-3 w-full pt-4">
-          <Button variant="flat" color="danger" type="button">
-            Cancel
-          </Button>
-          <Button 
-            color="primary" 
-            type="submit" 
+          <Link href="/">
+            <Button variant="flat" color="danger" type="button">
+              Cancel
+            </Button>
+          </Link>
+          <Button
+            color="primary"
+            type="submit"
             isLoading={isPending}
             endContent={!isPending && <ArrowUpRight />}
           >

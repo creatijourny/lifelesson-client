@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import {Radio, RadioGroup} from "@heroui/react";
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 
 
@@ -26,7 +27,8 @@ const SignUpPage = () => {
             password: user.password,
             name: user.name,
             image: user.image,
-            role: user.role
+            role: user.role,
+            plan: user.plan
         })
         if (data) {
             toast.success("Successfully registered!")
@@ -53,7 +55,7 @@ const SignUpPage = () => {
                 <p>Enjoy reading with StudyNest</p>
             </div>
             <Card className='border rounded-md'>
-                <Form onSubmit={onSubmit} className="flex w-96 flex-col gap-4 space-y-2 p-2">
+                <Form onSubmit={onSubmit} autoComplete="off" className="flex w-96 flex-col gap-4 space-y-2 p-2">
                     <TextField
                         isRequired
                         name="name"
@@ -77,6 +79,7 @@ const SignUpPage = () => {
                         isRequired
                         name="email"
                         type="email"
+                        autoComplete="off"
                         validate={(value) => {
                             if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
                                 return "Please enter a valid email address";
@@ -85,7 +88,7 @@ const SignUpPage = () => {
                         }}
                     >
                         <Label>Email</Label>
-                        <Input placeholder="john@example.com" />
+                        <Input placeholder="Enter your email" />
                         <FieldError />
                     </TextField>
                     <TextField
@@ -93,6 +96,7 @@ const SignUpPage = () => {
                         minLength={6}
                         name="password"
                         type="password"
+                        autoComplete="new-password"
                         validate={(value) => {
                             if (value.length < 6) {
                                 return "Password must be at least 6 characters";
@@ -146,7 +150,7 @@ const SignUpPage = () => {
                 </Form>                                    
                     <p className='text-center'>Or</p>
                 <div>
-                    <Button onClick={handleGoogleSignIn} variant="outline" className={"w-full rounded-none"}>Sign in with Google</Button>
+                    <Button onClick={handleGoogleSignIn} variant="outline" className={"w-full rounded-none"}><FcGoogle />Sign in with Google</Button>
                 </div>
 
 
