@@ -14,7 +14,7 @@ export function DashboardSidebar({ role }) {
     { icon: Magnifier, label: "My Lessons" },
     { icon: Bell, label: "Add Lesson" },
     { icon: Envelope, label: "My Favourites" },
-    { icon: Person, label: "User Profile" }
+    { icon: Person, label: "Profile" }
   ];
 
   const navContent = <nav className="flex flex-col gap-1">
@@ -26,7 +26,9 @@ export function DashboardSidebar({ role }) {
 
     {/* User Menu */}
 
-    <div className="space-y-1">
+    {role === "user" && (
+      <>
+      <div className="space-y-1">
 
       {userMenu.map((item) => (
         <SidebarItem
@@ -36,12 +38,14 @@ export function DashboardSidebar({ role }) {
       ))}
 
     </div>
+      </>
+    )}
 
     {/* Admin Menu */}
 
     {role === "admin" && (
       <>
-        <div className="my-6 border-t" />
+        <div className="my-3 border-t" />
 
         <p className="mb-3 px-4 text-xs font-semibold uppercase tracking-wider text-default-500">
           Administration

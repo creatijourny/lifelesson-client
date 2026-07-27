@@ -1,7 +1,10 @@
 import { Button, Table } from "@heroui/react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export function LessonsTable({ lessons }) {
   // const {_id, title, category, visibility} = lesson;
+  
   console.log(lessons);
   return (
     <Table>
@@ -27,7 +30,7 @@ export function LessonsTable({ lessons }) {
                 <Table.Cell>{lesson.accessLevel}</Table.Cell>
                 <Table.Cell>{lesson.reaction}</Table.Cell>
                 <Table.Cell>{lesson.createdAt}</Table.Cell>
-                <Table.Cell>
+                <Table.Cell>                  
                   <Button
                     size="sm"
                     className="rounded-none bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200"
@@ -41,8 +44,7 @@ export function LessonsTable({ lessons }) {
                 >
                   Update
                 </Button></Table.Cell>
-                <Table.Cell><Button
-                  size="sm"
+                <Table.Cell><Button size="sm"
                   className="rounded-none bg-red-100 text-red-700 hover:bg-red-200 border border-red-200"
                 >
                   Delete

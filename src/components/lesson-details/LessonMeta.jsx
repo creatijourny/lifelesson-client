@@ -27,7 +27,7 @@ export default function LessonMeta({
     authorPremium,
   } = lesson;
 
-  const createdDate = createdAt
+  const createdDate = createdAt 
     ? new Date(createdAt).toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",

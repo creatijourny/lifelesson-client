@@ -12,11 +12,16 @@
 
 
 import { notFound } from "next/navigation";
-import { getLesson, getUserLessonCount } from "@/lib/actions/lessons";
+import { getFavoriteCount, getLesson, getUserLessonCount } from "@/lib/actions/lessons";
 
 
 import LessonHero from "@/components/lesson-details/LessonHero";
 import LessonMeta from "@/components/lesson-details/LessonMeta";
+import LessonStats from "@/components/lesson-details/LessonStats";
+import LessonActions from "@/components/lesson-details/LessonActions";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import CommentSection from "@/components/comments/CommentSection";
 // import AuthorCard from "@/components/lesson-details/AuthorCard";
 // import LessonStats from "@/components/lesson-details/LessonStats";
 // import LessonActions from "@/components/lesson-details/LessonActions";
@@ -24,48 +29,59 @@ import LessonMeta from "@/components/lesson-details/LessonMeta";
 
 export default async function LessonDetailsPage({ params }) {
 
-     const { id } = await params;
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const { id } = await params;
     const lesson = await getLesson(id);
-//   const lesson = await getLesson(params.id);
+    //   const lesson = await getLesson(params.id);
 
     const { totalLessons } = await getUserLessonCount(
-  lesson.authorId
-);
-//   console.log(lesson);
+        lesson.authorId
+    );
+    //   console.log(lesson);
 
-  if (!lesson) {
-    notFound();
-  }
+    if (!lesson) {
+        notFound();
+    }
+    const favoriteData = await getFavoriteCount(lesson._id);
 
-  return (
-    <section className="mx-auto max-w-5xl p-2">
+    return (
+        <section className="mx-auto max-w-5xl p-2">
 
-      <LessonHero lesson={lesson} />
-      
-      <div className="grid gap-5 lg:grid-cols-3">
+            <LessonHero lesson={lesson} />
 
-        <div className="space-y-3 lg:col-span-2">
+            <div className="grid gap-5 lg:grid-cols-3">
 
-          <LessonMeta lesson={lesson} />
+                <div className="space-y-3 lg:col-span-2">
 
-          {/* <LessonStats lesson={lesson} /> */}
+                    <LessonMeta lesson={lesson} />
 
-          {/* <LessonActions lesson={lesson} /> */}
+                    <LessonStats
+                        lesson={lesson}
+                        favoritesCount={favoriteData.count}
+                    />
 
-          {/* <CommentSection lessonId={lesson._id} /> */}
+                    <LessonActions lesson={lesson} session={session} />
 
-        </div>
+                    <CommentSection 
+                        lesson={lesson} 
+                        session={session}
+                        />
 
-        <div>
+                </div>
 
-          {/* <AuthorCard author={lesson.author} /> */}
+                <div>
 
-        </div>
+                    {/* <AuthorCard author={lesson.author} /> */}
 
-      </div>
+                </div>
 
-    </section>
-  );
+            </div>
+
+        </section>
+    );
 }
 
 

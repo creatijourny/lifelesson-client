@@ -21,12 +21,14 @@ export default function LessonHero({ lesson }) {
             src={imageUrl}
             alt={title}
             fill
+            // height={400}
+            // width={600}
             priority
-            className="object-cover"
+            className="object-cover p-5"
           />
         </div>
       ) : (
-        <div className="flex h-72 items-center justify-center bg-default-100 md:h-96">
+        <div className="flex h-72 p-5 items-center justify-center bg-default-100 md:h-96">
           <p className="text-default-500">
             No Featured Image
           </p>
