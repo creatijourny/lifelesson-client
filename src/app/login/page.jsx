@@ -5,6 +5,7 @@ import { Button, Description, FieldError, Form, Input, Label, TextField } from "
 import { authClient } from '@/lib/auth-client';
 import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { FcGoogle } from 'react-icons/fc';
 
 
 
@@ -108,7 +109,7 @@ const LoginPage = () => {
                     
                 </div>
                 <div>
-                    <Button onClick={handleGoogleSignIn} variant="outline" className={"w-full rounded-none"}>Sign in with Google</Button>
+                    <Button onClick={handleGoogleSignIn} variant="outline" className={"w-full rounded-none"}><FcGoogle /> Sign in with Google</Button>
                 </div>
 
             </Card>

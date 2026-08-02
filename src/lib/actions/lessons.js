@@ -27,13 +27,31 @@ export const getLessons = async () => {
   return res.json();
 };
 
-export const getLesson = async (id) => {
+export async function getLesson(id) {
+
   const res = await fetch(
-    `${baseUrl}/api/lessons/${id}`
+    `${baseUrl}/api/dashboard/my-lessons/${id}`,
+    {
+      cache: "no-store",
+    }
   );
 
-  return res.json();
-};
+  const lesson = await res.json();
+
+  console.log("API returned:", lesson);
+
+  return lesson;
+
+  // return res.json();
+}
+
+// export const getLesson = async (id) => {
+//   const res = await fetch(
+//     `${baseUrl}/api/lessons/${id}`
+//   );
+
+//   return res.json();
+// };
 
 export async function getUserLessonCount(userId) {
   const res = await fetch(
@@ -63,32 +81,7 @@ export async function toggleLike(id, userId) {
 }
 
 
-// Favorites
 
-
-// Toggle favorite
-// export async function toggleFavorite(lessonId, userId, saved) {
-//   const res = await fetch(`${baseUrl}/api/favorites`, {
-//     method: saved ? "DELETE" : "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       lessonId,
-//       userId,
-//     }),
-//   });
-
-//   if (!res.ok) {
-//     const error = await res.json().catch(() => null);
-
-//     throw new Error(
-//       error?.message || `HTTP ${res.status}`
-//     );
-//   }
-
-//   return res.json();
-// }
 
 export async function toggleFavorite(lessonId, userId, saved) {
   const res = await fetch(`${baseUrl}/api/favorites`, {
@@ -359,6 +352,109 @@ export async function deleteComment(commentId) {
     throw new Error(
       result.message || "Failed to delete comment."
     );
+  }
+
+  return result;
+}
+
+// Dashboard
+
+export async function getDashboardData(userId) {
+
+  const res = await fetch(
+    `${baseUrl}/api/dashboard/${userId}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      result.message ||
+      "Failed to load dashboard."
+    );
+  }
+
+  return result;
+}
+
+export async function getMyLessons(userId) {
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL;
+
+  const res = await fetch(
+    `${baseUrl}/api/dashboard/my-lessons/user/${userId}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      result.message ||
+      "Failed to load lessons."
+    );
+  }
+
+  return result;
+}
+
+
+// Update lesson
+// export async function getLesson(id) {
+
+//   const res = await fetch(
+//     `${baseUrl}/api/dashboard/my-lessons/${id}`,
+//     {
+//       cache: "no-store",
+//     }
+//   );
+
+//   return res.json();
+// }
+
+export async function updateLesson(id, lesson) {
+  const res = await fetch(
+    `${baseUrl}/api/dashboard/my-lessons/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(lesson),
+    }
+  );
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      result.message || "Failed to update lesson."
+    );
+  }
+
+  return result;
+}
+
+// Delete button
+export async function deleteLesson(id) {
+
+  const res = await fetch(
+    `${baseUrl}/api/dashboard/my-lessons/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+   const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.message || "Failed to delete lesson.");
   }
 
   return result;

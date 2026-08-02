@@ -9,7 +9,7 @@ import {
 export const userMenu = [
   {
     title: "Home",
-    href: "/dashboard/home",
+    href: "/dashboard",
     icon: House,
   },
   {

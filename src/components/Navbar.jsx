@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
 import { Bars, Xmark, Person, BookOpen } from "@gravity-ui/icons";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
@@ -22,6 +22,7 @@ const publicLinks = [
 
 
 export default function Navbar() {
+    
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
@@ -143,13 +144,17 @@ export default function Navbar() {
                                     Dashboard
                                 </Button>
                             </Link> */}
-                            <div>
+                            <div className="flex justify-center items-center gap-1.5">
                                 {/* <p className="font-semibold">{user?.name}</p> */}
                                 <p className="text-sm font-medium text-foreground">
                                     Hi, {user?.name
                                         ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
                                         : ""}
                                 </p>
+                                <Avatar>
+        <Avatar.Image alt={user?.name} src={user?.image} />
+        <Avatar.Fallback>{user?.name.charAt(0).toUpperCase()}</Avatar.Fallback>
+      </Avatar>
                             </div>
                             
                             {/* <div className="font-bold text-orange-500">

@@ -69,6 +69,7 @@ export default function AddLessonPage() {
     setErrors({});
 
     const formData = new FormData(e.currentTarget);
+    
 
     const title = formData.get("title");
     const description = formData.get("description");
@@ -96,6 +97,8 @@ export default function AddLessonPage() {
     if (image) {
       imageUrl = await uploadImage(image);
     }
+
+  
 
     const safePayload = {
       title,
