@@ -7,6 +7,10 @@ import { Avatar, Button } from "@heroui/react";
 import { Bars, Xmark, Person, BookOpen } from "@gravity-ui/icons";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import PremiumBadge from "./PremiumBadge";
+
+
+
 
 const publicLinks = [
     {
@@ -27,41 +31,67 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
 
 
+    // Previous code
 
-    const navLinks = [...publicLinks];
+    // const navLinks = [...publicLinks];
 
-    const { data: session, isPending } = authClient.useSession();
+    // const { data: session, isPending } = authClient.useSession();
 
-    const isLoggedIn = !!session;
-    const user = session?.user;
-
-
-    if (isLoggedIn) {
-    navLinks.splice(
-        1,
-        0,
-        {
-            title: "Dashboard",
-            href: "/dashboard",
-        },
-        // {
-        //     title: "Add Lesson",
-        //     href: "/dashboard/add-lesson",
-        // },
-        // {
-        //     title: "My Lessons",
-        //     href: "/dashboard/my-lessons",
-        // }
-    );
+    // const isLoggedIn = !!session;
+    // const user = session?.user;
 
 
-        if (user.plan === "free") {
-            navLinks.push({
-                title: "Pricing / Upgrade",
-                href: "/pricing",
-            });
-        }
-    }
+    // if (isLoggedIn) {
+    // navLinks.splice(
+    //     1,
+    //     0,
+    //     {
+    //         title: "Dashboard",
+    //         href: "/dashboard",
+    //     },
+    //     // {
+    //     //     title: "Add Lesson",
+    //     //     href: "/dashboard/add-lesson",
+    //     // },
+    //     // {
+    //     //     title: "My Lessons",
+    //     //     href: "/dashboard/my-lessons",
+    //     // }
+    // );
+
+    //     if (user.plan === "free") {
+    //         navLinks.push({
+    //             title: "Pricing / Upgrade",
+    //             href: "/pricing",
+    //         });
+    //     }
+    // }
+    // Previous code
+
+    // New code
+    const { data: session, isPending } =
+  authClient.useSession();
+
+const isLoggedIn = !!session;
+const user = session?.user;
+
+const navLinks = [...publicLinks];
+
+if (isLoggedIn) {
+  navLinks.splice(1, 0, {
+    title: "Dashboard",
+    href: "/dashboard",
+  });
+
+  // Show Pricing only for Free users
+  if (user?.plan !== "premium") {
+    navLinks.push({
+      title: "Pricing / Upgrade",
+      href: "/pricing",
+    });
+  }
+  console.log(user);
+}
 
     const handleSignOut = async () => {
         await authClient.signOut();
@@ -89,7 +119,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Desktop Menu */}
-                <ul className="hidden lg:flex items-center gap-5">
+                {/* <ul className="hidden lg:flex items-center gap-5">
                     {navLinks.map((item) => (
                         <li key={item.href}>
                             <Link
@@ -107,7 +137,41 @@ export default function Navbar() {
                             </Link>
                         </li>
                     ))}
-                </ul>               
+                </ul>                */}
+
+                {/* New code */}
+                <ul className="hidden lg:flex items-center gap-5">
+
+  {navLinks.map((item) => (
+
+    <li key={item.href}>
+      <Link
+        href={item.href}
+        className={`relative pb-2 transition ${
+          pathname === item.href
+            ? "text-indigo-500"
+            : "text-slate-700 hover:text-indigo-600"
+        }`}
+      >
+        {item.title}
+
+        {pathname === item.href && (
+          <span className="absolute left-0 bottom-0 h-[2px] w-full rounded bg-indigo-600"></span>
+        )}
+      </Link>
+    </li>
+
+  ))}
+
+  {isLoggedIn && user?.plan === "premium" && (
+    <li>
+      <Link href="/dashboard/profile">
+        <PremiumBadge />
+      </Link>
+    </li>
+  )}
+
+</ul>
 
                 {/* Desktop Buttons */}
                 <div className="hidden lg:flex items-center gap-3">
@@ -205,11 +269,23 @@ export default function Navbar() {
                                         ? "text-indigo-600 font-semibold"
                                         : "text-slate-700"
                                         }`}
+                                        
                                 >
                                     {item.title}
+                                    
                                 </Link>
                             </li>
                         ))}
+                        {isLoggedIn && user?.plan === "premium" && (
+  <li>
+    <Link
+      href="/dashboard/profile"
+      onClick={() => setOpen(false)}
+    >
+      <PremiumBadge />
+    </Link>
+  </li>
+)}
 
                         <div className="pt-3 border-t flex flex-col gap-3">
                             {!isLoggedIn ? (
@@ -225,6 +301,7 @@ export default function Navbar() {
                                     </Link>
 
                                     <Link href="/sign-up">
+
                                         <Button
                                             color="primary"
                                             onPress={() => setOpen(false)}
@@ -253,7 +330,7 @@ export default function Navbar() {
                                         Logout
                                     </Button>
                                 </>
-                            )})
+                            )}
                         </div>
                     </ul>
                 </div>

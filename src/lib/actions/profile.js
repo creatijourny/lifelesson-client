@@ -108,3 +108,23 @@ export async function getUserPublicLessons(
 
   return result;
 }
+
+// Upgrade Premium
+// export async function upgradeUser(data) {
+
+//   const res = await fetch(
+//     `${baseUrl}/api/users/upgrade`,
+//     {
+//       method: "PUT",
+
+//       headers: {
+//         "Content-Type":
+//           "application/json",
+//       },
+
+//       body: JSON.stringify(data),
+//     }
+//   );
+
+//   return res.json();
+// }

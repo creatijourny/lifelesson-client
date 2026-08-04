@@ -8,7 +8,7 @@ export default function PricingPage() {
   const router = useRouter();
 
   const handleUpgrade = () => {
-    router.push("/payment");
+    router.push("/pricing/success-payment");
   };
 
   return (
@@ -56,13 +56,16 @@ export default function PricingPage() {
             <li>✅ Future premium features included</li>
           </ul>
 
-          <Button
+          <form method="POST" action='/api/checkout_sessions'>
+            <Button
+            type="submit"
             color="primary"
             className="mt-10 w-full"
             onPress={handleUpgrade}
           >
             Upgrade Now
           </Button>
+          </form>
         </Card>
       </div>
     </section>
