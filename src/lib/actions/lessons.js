@@ -19,13 +19,43 @@ export async function createLesson(lesson) {
 }
 
 
-export const getLessons = async () => {
-  const res = await fetch(`${baseUrl}/api/lessons`, {
+
+export async function getLessons(filters = {}) {
+  const params = new URLSearchParams();
+
+  if (filters.search) {
+    params.set("search", filters.search);
+  }
+
+  if (filters.category) {
+    params.set("category", filters.category);
+  }
+
+  params.set(
+    "page",
+    String(filters.page || 1)
+  );
+
+  params.set("limit", "9");
+
+  const url =
+    `${baseUrl}/api/lessons?${params.toString()}`;
+
+  console.log("Fetching:", url);
+
+  const res = await fetch(url, {
     cache: "no-store",
   });
 
+  if (!res.ok) {
+    throw new Error(
+      "Failed to fetch lessons"
+    );
+  }
+
   return res.json();
-};
+}
+
 
 export async function getLesson(id) {
 
@@ -45,13 +75,6 @@ export async function getLesson(id) {
   // return res.json();
 }
 
-// export const getLesson = async (id) => {
-//   const res = await fetch(
-//     `${baseUrl}/api/lessons/${id}`
-//   );
-
-//   return res.json();
-// };
 
 export async function getUserLessonCount(userId) {
   const res = await fetch(
@@ -230,41 +253,6 @@ export async function createComment(commentData) {
   return result;
 }
 
-// Get comments
-// export async function getComments(lessonId) {
-//   const res = await fetch(
-//     `${baseUrl}/api/comments/${lessonId}`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   if (!res.ok) {
-//     throw new Error("Failed to load comments");
-//   }
-
-//   return res.json();
-// }
-
-// export async function getComments(lessonId) {
-//   const res = await fetch(
-//     `${baseUrl}/api/comments/${lessonId}`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   const result = await res.json().catch(() => ({}));
-
-//   if (!res.ok) {
-//     console.error("Backend Error:", result);
-//     throw new Error(
-//       result.message || "Failed to load comments"
-//     );
-//   }
-
-//   return result;
-// }
 
 export async function getComments(lessonId) {
   const res = await fetch(
@@ -303,14 +291,6 @@ export async function getCommentsCount(
   }
 
   return result;
-
-  // if (!res.ok) {
-  //   throw new Error(
-  //     "Failed to load comment count"
-  //   );
-  // }
-
-  // return res.json();
 }
 
 export async function updateComment(commentId, text) {
@@ -405,19 +385,6 @@ export async function getMyLessons(userId) {
 }
 
 
-// Update lesson
-// export async function getLesson(id) {
-
-//   const res = await fetch(
-//     `${baseUrl}/api/dashboard/my-lessons/${id}`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   return res.json();
-// }
-
 export async function updateLesson(id, lesson) {
   const res = await fetch(
     `${baseUrl}/api/dashboard/my-lessons/${id}`,
@@ -461,40 +428,103 @@ export async function deleteLesson(id) {
 }
 
 
-
-
-// const result = await res.json().catch(() => null);
-
-  // console.log("Report Response:", result);
-
-  // if (!res.ok) {
-  //   throw new Error(result?.message || "Failed to report lesson");
-  // }
-
-  // return result;
-
-
-
-// 'use server';
-
-// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-// export async function getLessons(id) {
-//   const res = await fetch(`${baseUrl}/api/lessons/${id}`, {
-//     cache: "no-store",
-//   });
-
-//   const contentType = res.headers.get("content-type");
+// export async function getAdminDashboardData() {
+//   const res = await fetch(
+//     `${baseUrl}/api/admin/dashboard`,
+//     {
+//       cache: "no-store",
+//     }
+//   );
 
 //   if (!res.ok) {
-//     throw new Error(`HTTP ${res.status}`);
-//   }
+//     const result = await res.json();
 
-//   if (!contentType?.includes("application/json")) {
-//     const text = await res.text();
-//     console.error(text);
-//     throw new Error("Expected JSON but received HTML.");
+//     throw new Error(
+//       result.message ||
+//         "Failed to load admin dashboard"
+//     );
 //   }
 
 //   return res.json();
 // }
+
+export async function getAdminDashboardData() {
+  const res = await fetch(
+    `${baseUrl}/api/admin/dashboard`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const result = await res.json();
+
+  console.log(
+    "Admin dashboard API:",
+    res.status,
+    result
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      result.message ||
+        result.error ||
+        "Failed to load admin dashboard"
+    );
+  }
+
+  return result;
+}
+
+// Admin - Manage Users
+export async function getAdminUsers() {
+  const res = await fetch(
+    `${baseUrl}/api/admin/users`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to load users"
+    );
+  }
+
+  return data;
+}
+
+
+export async function updateUserRole(
+  userId,
+  role
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/users/${userId}/role`,
+    {
+      method: "PATCH",
+
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+        role,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to update user role"
+    );
+  }
+
+  return data;
+}

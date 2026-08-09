@@ -3,12 +3,13 @@ import {
   Persons,
   BookOpen,
   TriangleExclamation,
+  Person,
 } from "@gravity-ui/icons";
 
 export const adminMenu = [
   {
     title: "Home",
-    href: "/dashboard/admin/home",
+    href: "/dashboard",
     icon: House,
   },
   {
@@ -25,5 +26,10 @@ export const adminMenu = [
     title: "Reported Lessons",
     href: "/dashboard/admin/reported-lessons",
     icon: TriangleExclamation,
+  },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon: Person,
   },
 ];

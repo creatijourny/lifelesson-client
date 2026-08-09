@@ -11,7 +11,8 @@ import {
   ListBox,
   Button,
   Tooltip,
-  Switch
+  Switch,
+  Chip
 } from "@heroui/react";
 import { ArrowUpRight, CloudArrowUpIn } from "@gravity-ui/icons";
 import { createLesson, getLessons } from "@/lib/actions/lessons";
@@ -23,9 +24,10 @@ import { authClient } from "@/lib/auth-client";
 
 
 export default function AddLessonPage() {
-  
+
   const { data: session } = authClient.useSession();
-  const [isPremiumUser] = useState(false);
+  const isPremiumUser =
+    session?.user?.plan === "premium";
   const [errors, setErrors] = useState({});
   const [isPending, setIsPending] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
@@ -62,14 +64,14 @@ export default function AddLessonPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!session?.user){
+    if (!session?.user) {
       return;
     }
     setIsPending(true);
     setErrors({});
 
     const formData = new FormData(e.currentTarget);
-    
+
 
     const title = formData.get("title");
     const description = formData.get("description");
@@ -98,7 +100,7 @@ export default function AddLessonPage() {
       imageUrl = await uploadImage(image);
     }
 
-  
+
 
     const safePayload = {
       title,
@@ -106,35 +108,30 @@ export default function AddLessonPage() {
       category,
       tone,
       imageUrl,
-        image: formData.get("image"),
-      visibility: isPublic ? "Public" : "Private",
-      accessLevel: isPremiumUser ? formData.get("accessLevel") : "Free",
+      // image: formData.get("image"),
+      visibility: isPublic
+        ? "Public"
+        : "Private",
+
+      accessLevel: isPremiumUser
+        ? formData.get("accessLevel") || "Free"
+        : "Free",
+
+      // visibility: isPublic ? "Public" : "Private",
+      // accessLevel: isPremiumUser ? formData.get("accessLevel") : "Free",
 
       authorId: session.user.id,
       authorName: session.user.name,
       authorImage: session.user.image,
-      authorPremium: session.user.isPremium || false,
+      authorPremium: isPremiumUser,
+      // authorPremium: session.user.isPremium || false,
 
     };
 
-    // const res = await createLesson(safePayload);
-    // if(res.insertedId){
-    //     toast.success("Lesson posted successfully!");
-    //     e.currentTarget.reset();
-    // }
 
     const form = e.currentTarget;
 
-    // try {
-    //   console.log("Submitting Lesson Data:", safePayload);
-    //   await new Promise((resolve) => setTimeout(resolve, 1000));
-    //     toast.success("Lesson posted successfully!");
-    //   //   alert("Your wisdom has been shared successfully!");
-    // } catch (error) {
-    //   console.error(error);
-    // } finally {
-    //   setIsPending(false);
-    // }
+
 
     // new code start
     try {
@@ -154,23 +151,36 @@ export default function AddLessonPage() {
       setIsPending(false);
     }
 
-    // new code end
-
-    // const res = await createLesson(safePayload);
-    // // const res = await getLessons(safePayload);
-    // if (res.insertedId) {
-    //   toast.success("Lesson posted successfully!");
-    //   form.reset();
-    //   setImage(null);
-    //   setPreview("");
-    //   // e.currentTarget.reset();
-
-    // }
+    // new code end    
 
   };
 
   const renderAccessLevelSelect = () => {
     const selectComponent = (
+      <div className="flex justify-between gap-6">
+        <Select
+        name="visibility"
+        defaultValue="Public"
+        isDisabled={!isPremiumUser}
+        className="w-full max-w-xs"
+      >
+        <Label>Visibility</Label>
+        <Select.Trigger className="rounded-lg border bg-surface p-2">
+          <Select.Value />
+          <Select.Indicator />
+        </Select.Trigger>
+        <Select.Popover>
+          <ListBox selectionMode="single">
+            <ListBox.Item id="Public" textValue="Public (visible to everyone)">
+              Public (visible to everyone)
+            </ListBox.Item>
+            <ListBox.Item id="Private" textValue="Private (visible only to Premium users)">
+              Private (visible only to Premium users & the author)
+            </ListBox.Item>
+          </ListBox>
+        </Select.Popover>
+      </Select>
+
       <Select
         name="accessLevel"
         defaultValue="Free"
@@ -184,26 +194,38 @@ export default function AddLessonPage() {
         </Select.Trigger>
         <Select.Popover>
           <ListBox selectionMode="single">
-            <ListBox.Item id="Free" textValue="Free (visible to everyone)">
-              Free (visible to everyone)
+            <ListBox.Item id="Free" textValue="Free">
+              Free
             </ListBox.Item>
-            <ListBox.Item id="Premium" textValue="Premium (visible only to Premium users + creator)">
-              Premium (visible only to Premium users + creator)
+            <ListBox.Item id="Premium" textValue="Premium">
+              Premium
             </ListBox.Item>
           </ListBox>
         </Select.Popover>
       </Select>
-    );
+      </div>
 
-    if (!isPremiumUser) {
-      return (
-        <Tooltip content="Upgrade to Premium to create paid lessons." placement="top" color="warning">
-          <div className="w-full max-w-xs cursor-not-allowed">
-            {selectComponent}
-          </div>
-        </Tooltip>
-      );
+
+
+    );   
+
+    {
+      !isPremiumUser && (
+        <p className="mt-2 text-xs text-warning">
+          ⭐ Upgrade to Premium to create Premium-only lessons.
+        </p>
+      )
     }
+
+    {isPremiumUser && (
+  <Chip
+    color="warning"
+    variant="flat"
+    className="mb-2"
+  >
+    👑 Premium Creator
+  </Chip>
+)}
 
     return selectComponent;
   };
@@ -357,17 +379,31 @@ export default function AddLessonPage() {
           <hr className="border-default-100 my-2" />
 
           {/* Controls */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium">Visibility Settings</span>
+          <div>
+            {/*  className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4" */}
+            {/* <div className="flex flex-col gap-1">
+              <span className="text-sm font-medium">Visibility</span>
               <Switch
                 isSelected={isPublic}
-                onValueChange={setIsPublic}
+                // onValueChange={setIsPublic}
+                onValueChange= {(value) => {
+                  setIsPublic(value);
+                }}
                 size="sm"
               >
-                Make this lesson {isPublic ? "Public" : "Private"}
+                {isPublic
+                  ? "Public"
+                  : "Private"}
+               
               </Switch>
-            </div>
+              <p className="text-xs text-default-500">
+                {isPublic
+                  ? "Visible to everyone."
+                  : "Only you can view this lesson."}
+
+              </p>              
+
+            </div> */}
 
             {renderAccessLevelSelect()}
           </div>

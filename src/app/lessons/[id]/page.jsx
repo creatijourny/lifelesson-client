@@ -22,6 +22,7 @@ import LessonActions from "@/components/lesson-details/LessonActions";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import CommentSection from "@/components/comments/CommentSection";
+import PremiumLocked from "@/components/lesson-details/PremiumLocked";
 // import AuthorCard from "@/components/lesson-details/AuthorCard";
 // import LessonStats from "@/components/lesson-details/LessonStats";
 // import LessonActions from "@/components/lesson-details/LessonActions";
@@ -29,13 +30,31 @@ import CommentSection from "@/components/comments/CommentSection";
 
 export default async function LessonDetailsPage({ params }) {
 
+    
     const session = await auth.api.getSession({
         headers: await headers(),
     });
 
     const { id } = await params;
-    const lesson = await getLesson(id);
-    //   const lesson = await getLesson(params.id);
+    // const lesson = await getLesson(params.id);
+    const lesson = await getLesson(id); 
+    
+    const user = session?.user;
+
+  const isOwner =
+    user?.id === lesson.authorId;
+
+  const isPremium =
+    user?.plan === "premium";
+
+  const canView =
+    lesson.accessLevel !== "Premium" ||
+    isOwner ||
+    isPremium;
+
+  if (!canView) {
+    return <PremiumLocked />;
+  }
 
     const { totalLessons } = await getUserLessonCount(
         lesson.authorId

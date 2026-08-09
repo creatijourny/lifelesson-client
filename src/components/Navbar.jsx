@@ -30,43 +30,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
-
-    // Previous code
-
-    // const navLinks = [...publicLinks];
-
-    // const { data: session, isPending } = authClient.useSession();
-
-    // const isLoggedIn = !!session;
-    // const user = session?.user;
-
-
-    // if (isLoggedIn) {
-    // navLinks.splice(
-    //     1,
-    //     0,
-    //     {
-    //         title: "Dashboard",
-    //         href: "/dashboard",
-    //     },
-    //     // {
-    //     //     title: "Add Lesson",
-    //     //     href: "/dashboard/add-lesson",
-    //     // },
-    //     // {
-    //     //     title: "My Lessons",
-    //     //     href: "/dashboard/my-lessons",
-    //     // }
-    // );
-
-    //     if (user.plan === "free") {
-    //         navLinks.push({
-    //             title: "Pricing / Upgrade",
-    //             href: "/pricing",
-    //         });
-    //     }
-    // }
-    // Previous code
+   
 
     // New code
     const { data: session, isPending } =

@@ -24,7 +24,7 @@ export const userMenu = [
   },
   {
     title: "My Favorites",
-    href: "/dashboard/my-favorites",
+    href: "dashboard/my-favorites",
     icon: Heart,
   },
   {
