@@ -528,3 +528,162 @@ export async function updateUserRole(
 
   return data;
 }
+
+// Manage Lessons
+export async function getAdminLessons(
+  filters = {}
+) {
+  const params = new URLSearchParams();
+
+  if (filters.category) {
+    params.set(
+      "category",
+      filters.category
+    );
+  }
+
+  if (filters.visibility) {
+    params.set(
+      "visibility",
+      filters.visibility
+    );
+  }
+
+  if (filters.flagged) {
+    params.set(
+      "flagged",
+      "true"
+    );
+  }
+
+  const res = await fetch(
+    `${baseUrl}/api/admin/lessons?${params.toString()}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to load admin lessons"
+    );
+  }
+
+  return data;
+}
+
+
+export async function deleteAdminLesson(
+  lessonId
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/lessons/${lessonId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to delete lesson"
+    );
+  }
+
+  return data;
+}
+
+
+export async function updateAdminLesson(
+  lessonId,
+  updates
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/lessons/${lessonId}`,
+    {
+      method: "PATCH",
+
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify(updates),
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to update lesson"
+    );
+  }
+
+  return data;
+}
+
+// Admin Lesson
+export async function createAdminLesson(
+  lesson
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/lessons`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify(lesson),
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to create lesson"
+    );
+  }
+
+  return data;
+}
+
+export async function updateLessonAccessLevel(
+  lessonId,
+  accessLevel
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/lessons/${lessonId}/access-level`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        accessLevel,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to update lesson access level"
+    );
+  }
+
+  return data;
+}

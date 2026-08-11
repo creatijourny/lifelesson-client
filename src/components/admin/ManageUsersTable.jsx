@@ -14,6 +14,7 @@ import {
 
 export default function ManageUsersTable({
   initialUsers = [],
+  isAdmin = false,
 }) {
   const [users, setUsers] =
     useState(initialUsers);
@@ -158,7 +159,7 @@ export default function ManageUsersTable({
                   {user.totalLessons}
                 </td>
 
-                <td className="px-6 py-4 text-right">
+                {isAdmin && ( <td className="px-6 py-4 text-right">
 
                   <Button
                     size="sm"
@@ -185,6 +186,7 @@ export default function ManageUsersTable({
                   </Button>
 
                 </td>
+                )}
 
               </tr>
 

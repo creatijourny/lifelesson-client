@@ -53,6 +53,7 @@ export default async function ManageUsersPage() {
 
       <ManageUsersTable
         initialUsers={users}
+        isAdmin={session.user.role === "admin"}
       />
 
     </section>
