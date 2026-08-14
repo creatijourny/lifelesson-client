@@ -41,7 +41,7 @@ export default function LessonToolbar() {
   }, [search]);
 
   return (
-    <div className="max-w-4xl mx-auto justify-end mt-4 flex flex-col gap-4 md:flex-row">
+    <div className="max-w-3xl mx-auto justify-end mt-3 mb-4 flex flex-col gap-4 md:flex-row">
 
       <Input
   value={search}

@@ -10,6 +10,7 @@ import ManageLessonsTable from "@/components/admin/ManageLessonsTable";
 import AddAdminLesson from "@/components/admin/AddAdminLesson";
 import Link from "next/link";
 import { Button } from "@heroui/react";
+import PaginationManageLessons from "@/components/PaginationManageLessons";
 
 
 export default async function ManageLessonsPage({
@@ -106,10 +107,15 @@ export default async function ManageLessonsPage({
 
 
       <ManageLessonsTable
+      key={data.pagination.currentPage}
         initialLessons={
           data.lessons
         }
       />
+
+      <PaginationManageLessons 
+        currentPage={data.pagination.currentPage}
+        totalPages={data.pagination.totalPages}/>
 
     </section>
   );

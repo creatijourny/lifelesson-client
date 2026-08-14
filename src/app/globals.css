@@ -1,2 +1,21 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
+/* Hero Slider Swiper styles */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+  color: white;
+  transform: scale(0.8);
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: white;
+  opacity: 0.5;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: white;
+  width: 30px;
+  border-radius: 9999px;
+}

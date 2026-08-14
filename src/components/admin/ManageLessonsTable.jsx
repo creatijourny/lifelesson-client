@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Button,
@@ -21,7 +21,7 @@ export default function ManageLessonsTable({
     initialLessons = [],
 }) {
     const [lessons, setLessons] =
-        useState(initialLessons);
+        useState(initialLessons);        
 
     const [updatingId, setUpdatingId] =
         useState(null);

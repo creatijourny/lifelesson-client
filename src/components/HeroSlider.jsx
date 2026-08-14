@@ -40,14 +40,14 @@ export default function HeroSlider() {
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}        
         autoplay={{
-          delay: 6000,
+          delay: 7000,
           disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
         navigation
         loop
-        speed={1500}
-        className="h-[85vh]"
+        speed={2000}
+        className="hero-swiper h-[75vh]"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
@@ -97,7 +97,7 @@ export default function HeroSlider() {
         ))}
       </Swiper>
 
-      <style jsx global>{`
+      {/* <style jsx global>{`
         .swiper-button-next,
         .swiper-button-prev {
           color: white;
@@ -115,7 +115,7 @@ export default function HeroSlider() {
           width: 30px;
           border-radius: 9999px;
         }
-      `}</style>
+      `}</style> */}
     </section>
   );
 }

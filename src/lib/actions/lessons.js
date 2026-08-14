@@ -535,6 +535,16 @@ export async function getAdminLessons(
 ) {
   const params = new URLSearchParams();
 
+  params.set(
+    "page",
+    String(filters.page || 1)
+  );
+
+  params.set(
+    "perPage",
+    String(filters.perPage || 10)
+  );
+
   if (filters.category) {
     params.set(
       "category",
@@ -658,7 +668,7 @@ export async function createAdminLesson(
 
   return data;
 }
-
+// Update lesson access level
 export async function updateLessonAccessLevel(
   lessonId,
   accessLevel
@@ -673,6 +683,84 @@ export async function updateLessonAccessLevel(
       body: JSON.stringify({
         accessLevel,
       }),
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+
+    console.log(
+      "UPDATE ACCESS LEVEL API:",
+      res.status,
+      data
+    );
+
+    throw new Error(
+      data.message ||
+        "Failed to update lesson access level"
+    );
+  }
+
+  return data;
+}
+
+// export async function getReportedLessons() {
+//   const res = await fetch(
+//     `${baseUrl}/api/admin/reported-lessons`,
+//     {
+//       cache: "no-store",
+//     }
+//   );
+
+//   const data = await res.json();
+
+//   if (!res.ok) {
+//     throw new Error(
+//       data.message ||
+//         "Failed to load reported lessons"
+//     );
+//   }
+
+//   return data;
+// }
+
+// Get Reports
+export async function getReportedLessons() {
+  const res = await fetch(
+    `${baseUrl}/api/admin/reported-lessons`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  console.log(
+    "REPORTED LESSONS API:",
+    res.status,
+    data
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to load reported lessons"
+    );
+  }
+
+  return data;
+}
+
+// Delete Reports
+export async function deleteReportedLesson(
+  lessonId
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/reported-lessons/${lessonId}`,
+    {
+      method: "DELETE",
     }
   );
 
@@ -681,7 +769,33 @@ export async function updateLessonAccessLevel(
   if (!res.ok) {
     throw new Error(
       data.message ||
-        "Failed to update lesson access level"
+        "Failed to delete lesson"
+    );
+  }
+
+  return data;
+}
+
+// Ignore reports
+export async function ignoreLessonReports(
+  lessonId
+) {
+  const res = await fetch(
+    `${baseUrl}/api/admin/reported-lessons/${lessonId}/ignore`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type":
+          "application/json",
+    },
+});
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message ||
+        "Failed to clear reports"
     );
   }
 

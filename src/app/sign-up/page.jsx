@@ -52,7 +52,7 @@ const SignUpPage = () => {
         <div className='flex flex-col items-center'>
             <div className='text-center mb-4'>
                 <h1 className='text-2xl font-bold'>Please Sign Up</h1>
-                <p>Enjoy reading with StudyNest</p>
+                <p>Enjoy Reading Life Lessons</p>
             </div>
             <Card className='border rounded-md'>
                 <Form onSubmit={onSubmit} autoComplete="off" className="flex w-96 flex-col gap-4 space-y-2 p-2">
@@ -129,7 +129,7 @@ const SignUpPage = () => {
           </Radio.Content>
           
         </Radio>
-        <Radio value="admin">
+        <Radio value="admin" isDisabled>
           <Radio.Content>
             <Radio.Control>
               <Radio.Indicator />
