@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import LessonToolbar from "@/components/lessons/LessonToolbar";
 import Pagination from "@/components/lessons/Pagination";
+import { getTokenServer } from "@/lib/getTokenServer";
 
 
 export default async function LessonsPage({ searchParams, }) {
@@ -13,7 +14,8 @@ export default async function LessonsPage({ searchParams, }) {
   // console.log(page);
 
   const params = await searchParams;
-  console.log(params);
+  // console.log(params);
+  const token = await getTokenServer();
   const result = await getLessons(params);
   const lessons = result.lessons;
   // const lessons = await getLessons(params);

@@ -1,12 +1,18 @@
 'use server';
 
+import { getTokenServer } from "../getTokenServer";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function createLesson(lesson) {
+
+  const token = await getTokenServer();
+
   const res = await fetch(`${baseUrl}/api/lessons`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${token}`
     },
     body: JSON.stringify(lesson),
   });
@@ -21,6 +27,7 @@ export async function createLesson(lesson) {
 
 
 export async function getLessons(filters = {}) {
+  const token = await getTokenServer();
   const params = new URLSearchParams();
 
   if (filters.search) {
@@ -41,19 +48,30 @@ export async function getLessons(filters = {}) {
   const url =
     `${baseUrl}/api/lessons?${params.toString()}`;
 
-  console.log("Fetching:", url);
+  // console.log("Fetching:", url);
 
   const res = await fetch(url, {
     cache: "no-store",
   });
 
+  // if (!res.ok) {
+  //   throw new Error(
+  //     "Failed to fetch lessons"
+  //   );
+  // }
+
+  // return res.json();
+
+  const data = await res.json();
+
+  console.log("GET LESSONS:", res.status, data);
+
   if (!res.ok) {
-    throw new Error(
-      "Failed to fetch lessons"
-    );
+    throw new Error(data.message || "Failed to fetch lessons");
   }
 
-  return res.json();
+  return data;
+
 }
 
 
@@ -800,4 +818,22 @@ export async function ignoreLessonReports(
   }
 
   return data;
+}
+
+// Featured lessons
+export async function getFeaturedLessons() {
+  const res = await fetch(
+    `${baseUrl}/api/featured-lessons`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      "Failed to fetch featured lessons"
+    );
+  }
+
+  return res.json();
 }

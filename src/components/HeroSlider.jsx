@@ -47,7 +47,7 @@ export default function HeroSlider() {
         navigation
         loop
         speed={2000}
-        className="hero-swiper h-[75vh]"
+        className="hero-swiper h-[60vh]"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
