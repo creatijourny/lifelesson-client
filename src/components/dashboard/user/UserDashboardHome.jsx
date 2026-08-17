@@ -1,7 +1,5 @@
 "use client";
 
-
-// import DashboardHeader from "@/components/dashboard/user/DashboardHeader";
 import DashboardStats from "./DashboardStats";
 import QuickActions from "./QuickActions";
 import RecentLessons from "./RecentLessons";

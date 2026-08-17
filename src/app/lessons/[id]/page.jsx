@@ -1,19 +1,7 @@
-// import React from 'react';
-
-// const LessonDetailsPage = () => {
-//     return (
-//         <div>
-//             <h2>Details page</h2>
-//         </div>
-//     );
-// };
-
-// export default LessonDetailsPage;
-
 
 import { notFound } from "next/navigation";
 import { getFavoriteCount, getLesson, getUserLessonCount } from "@/lib/actions/lessons";
-
+import { redirect } from "next/navigation";
 
 import LessonHero from "@/components/lesson-details/LessonHero";
 import LessonMeta from "@/components/lesson-details/LessonMeta";
@@ -23,10 +11,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import CommentSection from "@/components/comments/CommentSection";
 import PremiumLocked from "@/components/lesson-details/PremiumLocked";
-// import AuthorCard from "@/components/lesson-details/AuthorCard";
-// import LessonStats from "@/components/lesson-details/LessonStats";
-// import LessonActions from "@/components/lesson-details/LessonActions";
-// import CommentSection from "@/components/lesson-details/CommentSection";
+
 
 export default async function LessonDetailsPage({ params }) {
 
@@ -34,6 +19,10 @@ export default async function LessonDetailsPage({ params }) {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
+
+    if (!session) {
+  redirect(`/login?callbackUrl=/lessons/${params.id}`);
+}
 
     const { id } = await params;
     // const lesson = await getLesson(params.id);

@@ -9,6 +9,7 @@ import {
   Eye,
   BookOpen,
 } from "@gravity-ui/icons";
+import { motion } from "motion/react"
 
 export default function RecentLessons({
   lessons = [],
@@ -19,8 +20,49 @@ export default function RecentLessons({
       {/* Header */}
 
       <div className="mb-6 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          whileHover={{ x: 6 }}
+          className="inline-block"
+        >
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{
+              delay: 0.15,
+              type: "spring",
+              stiffness: 180,
+            }}
+            className="text-xl font-bold text-slate-800 md:text-2xl"
+          >
+            Recent Lessons
+          </motion.h2>
 
-        <div>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "95%" }}
+            transition={{
+              delay: 0.3,
+              duration: 0.7,
+              ease: "easeOut",
+            }}
+            className="mt-2 h-1 rounded-full bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-500"
+          />
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="mt-3 text-sm text-slate-700"
+          >
+            Your latest published lessons
+          </motion.p>
+        </motion.div>
+
+        {/* <div>
 
           <h2 className="text-xl font-semibold">
             Recent Lessons
@@ -30,14 +72,14 @@ export default function RecentLessons({
             Your latest published lessons
           </p>
 
-        </div>
+        </div> */}
 
         <Button
           as={Link}
           href="/dashboard/my-lessons"
           variant="flat"
           color="primary"
-          size="sm"
+          size="sm"          
         >
           View All
         </Button>

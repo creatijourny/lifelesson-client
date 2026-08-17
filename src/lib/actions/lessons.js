@@ -27,7 +27,7 @@ export async function createLesson(lesson) {
 
 
 export async function getLessons(filters = {}) {
-  const token = await getTokenServer();
+  // const token = await getTokenServer();
   const params = new URLSearchParams();
 
   if (filters.search) {

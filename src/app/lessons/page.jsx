@@ -6,7 +6,6 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import LessonToolbar from "@/components/lessons/LessonToolbar";
 import Pagination from "@/components/lessons/Pagination";
-import { getTokenServer } from "@/lib/getTokenServer";
 
 
 export default async function LessonsPage({ searchParams, }) {
@@ -15,7 +14,7 @@ export default async function LessonsPage({ searchParams, }) {
 
   const params = await searchParams;
   // console.log(params);
-  const token = await getTokenServer();
+  // const token = await getTokenServer();
   const result = await getLessons(params);
   const lessons = result.lessons;
   // const lessons = await getLessons(params);
@@ -31,33 +30,7 @@ export default async function LessonsPage({ searchParams, }) {
 
 
   return (
-    <>
-    {/* <LessonToolbar /> */}
-
-
-    {/* <section className="mx-auto max-w-7xl px-4 py-10">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold">
-          Life Lessons
-        </h1>
-
-        <p className="mt-3 text-default-500">
-          Discover wisdom shared by people from
-          different walks of life.
-        </p>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {lessons.map((lesson) => (
-          <LessonCard
-            key={lesson._id}
-            lesson={lesson}
-            isPremiumUser={isPremiumUser}
-          />
-        ))}
-      </div>
-    </section> */}
-
+    <>    
     <section className="mx-auto max-w-7xl px-4 py-2">
 
         {/* Header */}

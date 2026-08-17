@@ -6,6 +6,7 @@ import {
   Bookmark,
   Globe,
 } from "@gravity-ui/icons";
+import { motion } from "motion/react"
 
 export default function DashboardStats({
   totalLessons = 0,
@@ -51,18 +52,51 @@ export default function DashboardStats({
             className={`${item.bg} rounded-2xl border border-default-200 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg`}
           >
             <div className="flex items-center justify-between">
+             
+              <motion.div
+  whileHover={{
+    scale: 1.06,
+    y: -8,
+    rotateX: 4,
+    rotateY: -3,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 18,
+    },
+  }}
+  whileTap={{ scale: 0.96 }}
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    duration: 0.5,
+    ease: "easeOut",
+  }}
+  className="rounded-2xl p-4 transition-shadow hover:bg-gradient-to-br hover:from-sky-50 hover:to-cyan-50 hover:shadow-xl hover:shadow-cyan-200/50"
+>
+  <motion.p
+    className="text-sm font-semibold uppercase tracking-wide text-slate-500"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.1 }}
+  >
+    {item.title}
+  </motion.p>
 
-              <div>
+  <motion.h2
+    className="mt-2 text-4xl font-extrabold text-slate-800"
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{
+      delay: 0.2,
+      type: "spring",
+      stiffness: 260,
+    }}
+  >
+    {item.value}
+  </motion.h2>
+</motion.div>
 
-                <p className="text-sm font-medium text-default-500">
-                  {item.title}
-                </p>
-
-                <h2 className="mt-2 text-4xl font-bold text-slate-800">
-                  {item.value}
-                </h2>
-
-              </div>
 
               <div
                 className={`${item.iconBg} flex h-16 w-16 items-center justify-center rounded-2xl`}

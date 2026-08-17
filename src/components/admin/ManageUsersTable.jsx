@@ -43,9 +43,9 @@ export default function ManageUsersTable({
         prev.map((user) =>
           user._id === userId
             ? {
-                ...user,
-                role: newRole,
-              }
+              ...user,
+              role: newRole,
+            }
             : user
         )
       );
@@ -59,7 +59,7 @@ export default function ManageUsersTable({
 
       toast.error(
         error.message ||
-          "Failed to update role."
+        "Failed to update role."
       );
     } finally {
       setUpdatingId(null);
@@ -87,6 +87,10 @@ export default function ManageUsersTable({
               Role
             </th>
 
+            <th className="px-5 py-4 text-sm font-semibold">
+              Membership
+            </th>
+
             <th className="px-6 py-4 text-left text-sm font-semibold">
               Total Lessons
             </th>
@@ -106,7 +110,7 @@ export default function ManageUsersTable({
             <tr>
 
               <td
-                colSpan={5}
+                colSpan={6}
                 className="px-6 py-12 text-center text-default-500"
               >
                 No users found.
@@ -155,11 +159,30 @@ export default function ManageUsersTable({
 
                 </td>
 
+                <td className="px-5 py-4">
+                  {user.plan === "premium" ? (
+                    <Chip
+                      variant="solid"
+                      className="bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold shadow-md"
+                    >
+                      👑 Premium
+                    </Chip>
+                  ) : (
+                    <Chip
+                      variant="flat"
+                      className="bg-slate-100 text-slate-600"
+                    >
+                      Free
+                    </Chip>
+                  )}
+                </td>
+
+
                 <td className="px-6 py-4 font-medium">
                   {user.totalLessons}
                 </td>
 
-                {isAdmin && ( <td className="px-6 py-4 text-right">
+                {isAdmin && (<td className="px-6 py-4 text-right">
 
                   <Button
                     size="sm"

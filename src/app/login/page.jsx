@@ -46,9 +46,9 @@ const LoginPage = () => {
 
     return (
         <div className='flex flex-col items-center'>
-            <div className='text-center mb-4'>
-                <h1 className='text-2xl font-bold'>Please login</h1>
-                <p>Enjoy reading with StudyNest</p>
+            <div className='text-center mb-2'>
+                <h1 className='text-2xl font-bold py-5'>Please login</h1>
+                
             </div>
             <Card className='border rounded-md'>
                 <Form onSubmit={onSubmit} autoComplete="off"  className="flex w-96 flex-col gap-4 space-y-3 p-3">

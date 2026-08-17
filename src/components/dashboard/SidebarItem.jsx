@@ -20,19 +20,18 @@ const SidebarItem = ({ item }) => {
             className={clsx(
                 "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200",
                 isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-default-700 hover:bg-default-100"
-                //   ? "bg-primary/10 text-primary shadow-md"
-                //   : "text-default-700 hover:bg-default-100 hover:text-primary"
+                    ? "bg-gradient-to-r from-blue-400 to-sky-300 text-white shadow-lg shadow-sky-300/50 ring-2 ring-sky-200 font-semibold"
+                    : "text-default-700 hover:bg-sky-50 hover:text-sky-700"                
+
             )}
         >
             {Icon && (
                 <Icon
                     className={clsx(
                         "h-5 w-5 transition-colors",
-                        isActive                            
-                        ? "text-primary-foreground"
-                        : "text-default-500 group-hover:text-primary"
+                        isActive
+                            ? "text-primary-foreground"
+                            : "text-default-500 group-hover:text-primary"
                     )}
                 />
             )}
