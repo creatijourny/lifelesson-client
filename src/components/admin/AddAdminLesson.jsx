@@ -20,7 +20,6 @@ import {
   createAdminLesson,
 } from "@/lib/actions/lessons";
 
-
 export default function AddAdminLesson() {
 
   const [open, setOpen] =
@@ -38,7 +37,6 @@ export default function AddAdminLesson() {
     accessLevel: "Free",
   });
 
-
   function handleChange(
     field,
     value
@@ -48,7 +46,6 @@ export default function AddAdminLesson() {
       [field]: value,
     }));
   }
-
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -89,7 +86,6 @@ export default function AddAdminLesson() {
     }
   }
 
-
   return (
     <>
       <Button
@@ -126,11 +122,9 @@ export default function AddAdminLesson() {
                     </Modal.Heading>
                   </Modal.Header>
 
-
                   <Form
                     onSubmit={handleSubmit}
                   >
-
                     <Modal.Body className="space-y-5">
 
                       <Input
@@ -145,7 +139,6 @@ export default function AddAdminLesson() {
                         }
                         isRequired
                       />
-
 
                       <TextArea
                         label="Description"
@@ -162,7 +155,6 @@ export default function AddAdminLesson() {
                         minRows={5}
                         isRequired
                       />
-
 
                       <Select
                         selectedKeys={
@@ -251,7 +243,6 @@ export default function AddAdminLesson() {
                         }
                       />
 
-
                       <Select
                         selectedKeys={[
                           form.visibility,
@@ -270,7 +261,6 @@ export default function AddAdminLesson() {
                           );
                         }}
                       >
-
                         <Label>
                           Visibility
                         </Label>

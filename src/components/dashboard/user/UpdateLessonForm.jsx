@@ -134,13 +134,7 @@ export default function UpdateLessonForm({ lesson }) {
             updatedAt:
                 new Date(),
 
-        };
-
-        // const res = await createLesson(safePayload);
-        // if(res.insertedId){
-        //     toast.success("Lesson posted successfully!");
-        //     e.currentTarget.reset();
-        // }
+        };        
 
         const form = e.currentTarget;
 
@@ -164,8 +158,6 @@ export default function UpdateLessonForm({ lesson }) {
         } finally {
             setIsPending(false);
         }
-
-
     };
 
     const renderAccessLevelSelect = () => {
@@ -212,7 +204,7 @@ export default function UpdateLessonForm({ lesson }) {
 
 
     return (
-        // className="max-w-2xl mx-auto px-4 py-8"
+        
         <div className="max-w-2xl mx-auto px-4 py-6">
             <div className="mb-6">
                 <h1 className="text-2xl font-bold tracking-tight">Share Your Wisdom</h1>
@@ -293,23 +285,7 @@ export default function UpdateLessonForm({ lesson }) {
                         rows={6}
                         required
                     // errorMessage={errors.description}
-                    />
-
-                    {/* Image1 start */}
-                    {/* <div className="w-full">
-            <label className="block text-sm font-medium text-default-700 mb-2">
-              Cover Image (Optional)
-            </label>
-            <div className="flex items-center justify-center w-full">
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl border-default-300 cursor-pointer hover:bg-default-50 transition-colors">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6 text-default-500">
-                  <CloudArrowUpIn className="w-6 h-6 mb-2" />
-                  <p className="text-xs">Click to upload an image asset</p>
-                </div>
-                <input type="url" name="image" accept="image/*" className="hidden" />
-              </label>
-            </div>
-          </div> */}
+                    />                    
 
                     {/* image start */}
                     <div className="w-full">

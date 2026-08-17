@@ -3,7 +3,6 @@ import { getMyLessons } from "@/lib/actions/lessons";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-
 export default async function MyLessonsPage() {
 
   const session =
@@ -14,8 +13,7 @@ export default async function MyLessonsPage() {
   const lessons =
     await getMyLessons(
       session.user.id
-    );
-    
+    );    
 
     return (
         <div>

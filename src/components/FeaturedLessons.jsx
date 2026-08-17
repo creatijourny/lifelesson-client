@@ -8,7 +8,7 @@ import { getFeaturedLessons } from "@/lib/actions/lessons";
 
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { motion } from "motion/react"
+// import { motion } from "motion/react"
 import FeaturedSectionHeader from "./FeaturedSectionHeader";
 
 export default async function FeaturedLessons() {
@@ -34,18 +34,8 @@ export default async function FeaturedLessons() {
 
         <span className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-1 mb-4 text-sm font-semibold text-amber-700">
           ⭐ Editor's Picks
-        </span>
+        </span>        
         
-        {/* <h2 className="mt-3 text-4xl font-extrabold text-slate-800 md:text-5xl">
-          Featured Life Lessons
-        </h2>
-
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-          Carefully selected stories filled
-          with wisdom, resilience, and
-          unforgettable experiences worth
-          exploring.
-        </p> */}
         <FeaturedSectionHeader />
 
       </div>

@@ -9,11 +9,7 @@ import {
   getUserPublicLessons,
 } from "@/lib/actions/profile";
 
-// import ProfileHeader from "@/components/dashboard/profile/ProfileHeader";
-// import ProfileStats from "@/components/dashboard/profile/ProfileStats";
-// import UserLessons from "@/components/dashboard/profile/UserLessons";
 import ProfileContent from "@/components/dashboard/profile/ProfileContent";
-
 
 export default async function ProfilePage() {
   const session = await auth.api.getSession({
@@ -34,9 +30,7 @@ export default async function ProfilePage() {
   ]);
 
   return (
-    <section className="space-y-6">
-
-      {/* Page Title */}
+    <section className="space-y-6">     
 
       <div>
         <h1 className="text-3xl font-bold">
@@ -48,28 +42,11 @@ export default async function ProfilePage() {
         </p>
       </div>
 
-      {/* Profile */}
       <ProfileContent 
       profile={profile} 
       stats={stats} 
       lessons={lessons} 
       />
-
-      {/* <ProfileHeader
-        profile={profile}
-      /> */}
-
-      {/* Statistics */}
-
-      {/* <ProfileStats
-        stats={stats}
-      /> */}
-
-      {/* User Lessons */}
-
-      {/* <UserLessons
-        lessons={lessons}
-      /> */}
 
     </section>
   );

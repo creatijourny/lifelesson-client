@@ -46,20 +46,13 @@ export default async function AdminDashboardPage() {
 console.log("LESSON GROWTH:", dashboard.lessonGrowth);
 console.log("USER GROWTH:", dashboard.userGrowth);
 
-//     console.log(
-//   "ADMIN DASHBOARD:",
-//   dashboard
-// );
-
   const {
     totalUsers,
     totalPublicLessons,
     totalReportedLessons,
     todaysNewLessons,
     mostActiveContributors,
-  } = dashboard;
-
-  
+  } = dashboard; 
 
 
   return (
@@ -78,7 +71,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
         </p>
       </div>
 
-
       {/* Analytics Cards */}
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -95,7 +87,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
           </p>
         </Card>
 
-
         {/* Public Lessons */}
 
         <Card className="p-6 border">
@@ -108,7 +99,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
           </p>
         </Card>
 
-
         {/* Reports */}
 
         <Card className="p-6 border">
@@ -120,7 +110,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
             {totalReportedLessons}
           </p>
         </Card>
-
 
         {/* Today's Lessons */}
 
@@ -135,7 +124,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
         </Card>
 
       </div>
-
 
       {/* Most Active Contributors */}
 
@@ -155,7 +143,6 @@ console.log("USER GROWTH:", dashboard.userGrowth);
           </div>
 
         </div>
-
 
         <div className="space-y-4">
 
@@ -244,41 +231,4 @@ console.log("USER GROWTH:", dashboard.userGrowth);
   );
 }
 
-
-
-// import { getDashboardData } from "@/lib/actions/lessons";
-// import { auth } from "@/lib/auth";
-// import { headers } from "next/headers";
-// import { redirect } from "next/navigation";
-
-// export default async function AdminDashboardPage() {
-
-//     const session = await auth.api.getSession({
-//         headers: await headers(),
-//     });
-
-//    if (!session) {
-//   redirect("/login");
-// }
-
-// if (session.user.role !== "admin") {
-//   redirect("/dashboard");
-// }
-
-   
-//     const stats =
-//     await getDashboardData(
-//       session.user.id
-//     );
-
-//     return (
-//         <div className="p-6">
-//       <h1 className="text-3xl font-bold mb-4">
-//         Welcome, {session.user.name}
-//       </h1>
-
-      
-//     </div>
-//     );
-// }
 

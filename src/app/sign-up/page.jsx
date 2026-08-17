@@ -1,5 +1,4 @@
 "use client";
-
 import { Card, Separator } from '@heroui/react';
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { authClient } from '@/lib/auth-client';
@@ -9,18 +8,14 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 
-
-
 const SignUpPage = () => {
-
     const [role, setRole] = useState("user");
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const user = Object.fromEntries(formData.entries());
-        
+        const user = Object.fromEntries(formData.entries());        
 
         const { data, error } = await authClient.signUp.email({
             email: user.email,

@@ -11,12 +11,7 @@ export default function UserDashboardHome({
   recentLessons,
 }) {
   return (
-    <section className="space-y-4">
-
-      {/* Header */}
-      {/* <DashboardHeader session={session} /> */}
-
-      {/* Statistics */}
+    <section className="space-y-4">      
       
       <DashboardStats
         totalLessons={stats.totalLessons}

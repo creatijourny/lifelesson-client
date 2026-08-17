@@ -24,25 +24,7 @@ const router = useRouter();
       "Delete this lesson permanently?"
     );
 
-    if (!ok) return;
-
-    // try {
-
-    //   await deleteLesson(id);
-
-    //   toast.success(
-    //     "Lesson deleted successfully."
-    //   );
-
-    //   router.refresh();
-
-    // } catch {
-
-    //   toast.error(
-    //     "Failed to delete lesson."
-    //   );
-
-    // }
+    if (!ok) return;   
 
     try {
     const result = await deleteLesson(id);

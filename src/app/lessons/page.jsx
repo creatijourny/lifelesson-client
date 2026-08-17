@@ -26,26 +26,11 @@ export default async function LessonsPage({ searchParams, }) {
 
   const isPremiumUser =
   session?.user?.plan === "premium";  
-  
-
 
   return (
     <>    
     <section className="mx-auto max-w-7xl px-4 py-2">
-
-        {/* Header */}
-        {/* <div className="mb-6 text-center">
-
-          <h1 className="text-4xl font-bold">
-            Life Lessons
-          </h1>
-
-          <p className="mt-3 text-default-500">
-            Discover wisdom shared by people from
-            different walks of life.
-          </p>
-
-        </div> */}
+       
         <div className="relative overflow-hidden rounded bg-gradient-to-br from-sky-50 via-white to-cyan-50 px-6 py-4 text-center">
 
   {/* Decorative glow */}

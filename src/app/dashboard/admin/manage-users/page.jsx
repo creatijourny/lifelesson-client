@@ -37,9 +37,7 @@ export default async function ManageUsersPage() {
 
   return (
     <section className="mx-auto max-w-7xl p-6">
-
       <div className="mb-8">
-
         <h1 className="text-3xl font-bold">
           Manage Users
         </h1>
@@ -48,9 +46,7 @@ export default async function ManageUsersPage() {
           Manage user accounts, roles,
           and activity.
         </p>
-
       </div>
-
       <ManageUsersTable
         initialUsers={users}
         isAdmin={session.user.role === "admin"}

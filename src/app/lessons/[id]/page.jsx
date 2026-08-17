@@ -12,9 +12,7 @@ import { headers } from "next/headers";
 import CommentSection from "@/components/comments/CommentSection";
 import PremiumLocked from "@/components/lesson-details/PremiumLocked";
 
-
 export default async function LessonDetailsPage({ params }) {
-
     
     const session = await auth.api.getSession({
         headers: await headers(),
@@ -23,7 +21,6 @@ export default async function LessonDetailsPage({ params }) {
     if (!session) {
   redirect(`/login?callbackUrl=/lessons/${params.id}`);
 }
-
     const { id } = await params;
     // const lesson = await getLesson(params.id);
     const lesson = await getLesson(id); 
@@ -44,7 +41,6 @@ export default async function LessonDetailsPage({ params }) {
   if (!canView) {
     return <PremiumLocked />;
   }
-
     const { totalLessons } = await getUserLessonCount(
         lesson.authorId
     );
@@ -93,96 +89,3 @@ export default async function LessonDetailsPage({ params }) {
 }
 
 
-
-// import Image from "next/image";
-// import { notFound } from "next/navigation";
-// import { Chip } from "@heroui/react";
-// import { getLessons } from "@/lib/actions/lessons";
-
-// export default async function LessonDetailsPage({ params }) {
-//   const { id } = params;
-
-//   const lesson = await getLessons(id);
-
-//   if (!lesson) {
-//     notFound();
-//   }
-
-//   const {
-//     title,
-//     description,
-//     category,
-//     tone,
-//     imageUrl,
-//     accessLevel,
-//     visibility,
-//     createdAt,
-//   } = lesson;
-
-//   return (
-//     <section className="mx-auto max-w-5xl px-4 py-8">
-//       <div className="overflow-hidden rounded-2xl border border-default-200 bg-content1 shadow-sm">
-
-//         {/* Image */}
-
-//         {imageUrl && (
-//           <Image
-//             src={imageUrl}
-//             alt={title}
-//             width={800}
-//             height={500}
-//             className="h-[350px] w-full object-cover"
-//             priority
-//           />
-//         )}
-
-//         <div className="space-y-6 p-8">
-
-//           {/* Category & Tone */}
-
-//           <div className="flex flex-wrap gap-3">
-//             <Chip color="primary" variant="flat">
-//               {category}
-//             </Chip>
-
-//             <Chip color="secondary" variant="flat">
-//               {tone}
-//             </Chip>
-
-//             <Chip variant="bordered">
-//               {accessLevel}
-//             </Chip>
-
-//             <Chip variant="bordered">
-//               {visibility}
-//             </Chip>
-//           </div>
-
-//           {/* Title */}
-
-//           <h1 className="text-4xl font-bold">
-//             {title}
-//           </h1>
-
-//           {/* Description */}
-
-//           <div className="prose max-w-none">
-//             <p className="whitespace-pre-line text-default-700">
-//               {description}
-//             </p>
-//           </div>
-
-//           {/* Footer */}
-
-//           <div className="border-t pt-5 text-sm text-default-500">
-//             Created on{" "}
-//             {createdAt
-//               ? new Date(createdAt).toLocaleDateString()
-//               : "N/A"}
-//           </div>
-
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }

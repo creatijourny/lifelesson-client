@@ -7,9 +7,6 @@ import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { FcGoogle } from 'react-icons/fc';
 
-
-
-
 const LoginPage = () => {
 
     const onSubmit = async (e) => {
@@ -17,7 +14,6 @@ const LoginPage = () => {
 
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
-
         const { data, error } = await authClient.signIn.email({
             email: user.user_email,
             password: user.user_password,
@@ -47,8 +43,7 @@ const LoginPage = () => {
     return (
         <div className='flex flex-col items-center'>
             <div className='text-center mb-2'>
-                <h1 className='text-2xl font-bold py-5'>Please login</h1>
-                
+                <h1 className='text-2xl font-bold py-5'>Please login</h1>                
             </div>
             <Card className='border rounded-md'>
                 <Form onSubmit={onSubmit} autoComplete="off"  className="flex w-96 flex-col gap-4 space-y-3 p-3">
@@ -99,7 +94,6 @@ const LoginPage = () => {
 
                             Login
                         </Button>
-
 
                     </div>
                 </Form>

@@ -21,33 +21,33 @@ const publicLinks = [
 ];
 
 export default function Navbar() {
-    
+
     const pathname = usePathname();
-    const [open, setOpen] = useState(false);  
-  
+    const [open, setOpen] = useState(false);
+
     const { data: session, isPending } =
-  authClient.useSession();
+        authClient.useSession();
 
-const isLoggedIn = !!session;
-const user = session?.user;
+    const isLoggedIn = !!session;
+    const user = session?.user;
 
-const navLinks = [...publicLinks];
+    const navLinks = [...publicLinks];
 
-if (isLoggedIn) {
-  navLinks.splice(1, 0, {
-    title: "Dashboard",
-    href: "/dashboard",
-  });
+    if (isLoggedIn) {
+        navLinks.splice(1, 0, {
+            title: "Dashboard",
+            href: "/dashboard",
+        });
 
-  // Show Pricing only for Free users
-  if (user?.plan !== "premium") {
-    navLinks.push({
-      title: "Pricing / Upgrade",
-      href: "/pricing",
-    });
-  }
-  console.log(user);
-}
+        // Show Pricing only for Free users
+        if (user?.plan !== "premium") {
+            navLinks.push({
+                title: "Pricing / Upgrade",
+                href: "/pricing",
+            });
+        }
+        console.log(user);
+    }
     const handleSignOut = async () => {
         await authClient.signOut();
         redirect('/');
@@ -55,10 +55,10 @@ if (isLoggedIn) {
 
     return (
         <header className="sticky top-0 z-50 border-b border-white/20 bg-gradient-to-r from-slate-50/90 via-white/85 to-sky-50/90 backdrop-blur-xl shadow-sm shadow-slate-200/30">
-        {/* <header className="sticky top-0 z-50 bg-background/70 shadow-sm border-b border-zinc-50"> */}
+            {/* <header className="sticky top-0 z-50 bg-background/70 shadow-sm border-b border-zinc-50"> */}
             <nav className="max-w-7xl mx-auto flex items-center justify-between h-15 px-2 lg:px-3">
                 {/* Logo */}
-                 {/* <Link href="/" className="flex items-center gap-3">
+                {/* <Link href="/" className="flex items-center gap-3">
 
                     <Image
                         src="/lifelogo.png"
@@ -74,52 +74,51 @@ if (isLoggedIn) {
                     </h1>                   
                 </Link>  */}
                 <Link href="/" className="flex items-center gap-3">
-  <Image
-    src="/lifelogo.png"
-    alt="Life Lessons Logo"
-    width={40}
-    height={40}
-    priority
-    className="object-contain"
-  />
+                    <Image
+                        src="/lifelogo.png"
+                        alt="Life Lessons Logo"
+                        width={40}
+                        height={40}
+                        priority
+                        className="object-contain"
+                    />
 
-  <h1 className="text-3xl font-extrabold tracking-tight">
-    <span className="text-sky-500">life </span>
-    <span className="text-orange-500">lessons</span>
-  </h1>
-</Link>
-               
+                    <h1 className="text-3xl font-extrabold tracking-tight">
+                        <span className="text-sky-500">life </span>
+                        <span className="text-orange-500">lessons</span>
+                    </h1>
+                </Link>
+
                 <ul className="hidden lg:flex items-center gap-5">
 
-  {navLinks.map((item) => (
+                    {navLinks.map((item) => (
 
-    <li key={item.href}>
-      <Link
-        href={item.href}
-        className={`relative pb-2 transition ${
-          pathname === item.href
-            ? "text-indigo-500"
-            : "text-slate-700 hover:text-indigo-600"
-        }`}
-      >
-        {item.title}
+                        <li key={item.href}>
+                            <Link
+                                href={item.href}
+                                className={`relative pb-2 transition ${pathname === item.href
+                                        ? "text-indigo-500"
+                                        : "text-slate-700 hover:text-indigo-600"
+                                    }`}
+                            >
+                                {item.title}
 
-        {pathname === item.href && (
-          <span className="absolute left-0 bottom-0 h-[2px] w-full rounded bg-indigo-600"></span>
-        )}
-      </Link>
-    </li>
-  ))}
+                                {pathname === item.href && (
+                                    <span className="absolute left-0 bottom-0 h-[2px] w-full rounded bg-indigo-600"></span>
+                                )}
+                            </Link>
+                        </li>
+                    ))}
 
-  {isLoggedIn && user?.plan === "premium" && (
-    <li>
-      <Link href="/dashboard/profile">
-        <PremiumBadge />
-      </Link>
-    </li>
-  )}
+                    {isLoggedIn && user?.plan === "premium" && (
+                        <li>
+                            <Link href="/dashboard/profile">
+                                <PremiumBadge />
+                            </Link>
+                        </li>
+                    )}
 
-</ul>
+                </ul>
 
                 {/* Desktop Buttons */}
                 <div className="hidden lg:flex items-center gap-3">
@@ -145,14 +144,7 @@ if (isLoggedIn) {
                         </Link>
                     </>) : (
                         <>
-                            {/* <Link href="/dashboard">
-                                <Button
-                                    variant="bordered"
-                                    onPress={() => setOpen(false)}
-                                >
-                                    Dashboard
-                                </Button>
-                            </Link> */}
+
                             <div className="flex justify-center items-center gap-1.5">
                                 {/* <p className="font-semibold">{user?.name}</p> */}
                                 <p className="text-sm font-medium text-foreground">
@@ -161,13 +153,12 @@ if (isLoggedIn) {
                                         : ""}
                                 </p>
                                 <Avatar>
-        <Avatar.Image alt={user?.name} src={user?.image} />
-        <Avatar.Fallback>{user?.name.charAt(0).toUpperCase()}</Avatar.Fallback>
-      </Avatar>
+                                    <Avatar.Image alt={user?.name} src={user?.image} />
+                                    <Avatar.Fallback>{user?.name.charAt(0).toUpperCase()}</Avatar.Fallback>
+                                </Avatar>
                             </div>
-                            
-                            
-                            <div>                                
+
+                            <div>
                                 <p className="text-sm text-orange-500">
                                     {user?.role
                                         ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
@@ -211,23 +202,23 @@ if (isLoggedIn) {
                                         ? "text-indigo-600 font-semibold"
                                         : "text-slate-700"
                                         }`}
-                                        
+
                                 >
                                     {item.title}
-                                    
+
                                 </Link>
                             </li>
                         ))}
                         {isLoggedIn && user?.plan === "premium" && (
-  <li>
-    <Link
-      href="/dashboard/profile"
-      onClick={() => setOpen(false)}
-    >
-      <PremiumBadge />
-    </Link>
-  </li>
-)}
+                            <li>
+                                <Link
+                                    href="/dashboard/profile"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    <PremiumBadge />
+                                </Link>
+                            </li>
+                        )}
 
                         <div className="pt-3 border-t flex flex-col gap-3">
                             {!isLoggedIn ? (

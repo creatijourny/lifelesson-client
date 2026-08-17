@@ -6,7 +6,6 @@ import clsx from "clsx";
 
 const SidebarItem = ({ item }) => {
     const pathname = usePathname();
-
     const Icon = item.icon;
 
     // Active for nested routes too
@@ -21,8 +20,7 @@ const SidebarItem = ({ item }) => {
                 "group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-200",
                 isActive
                     ? "bg-gradient-to-r from-blue-400 to-sky-300 text-white shadow-lg shadow-sky-300/50 ring-2 ring-sky-200 font-semibold"
-                    : "text-default-700 hover:bg-sky-50 hover:text-sky-700"                
-
+                    : "text-default-700 hover:bg-sky-50 hover:text-sky-700"
             )}
         >
             {Icon && (

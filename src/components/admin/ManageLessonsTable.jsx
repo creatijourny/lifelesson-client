@@ -68,7 +68,6 @@ export default function ManageLessonsTable({
         }
     }
 
-
     async function toggleLesson(
         lesson,
         field
@@ -161,7 +160,6 @@ export default function ManageLessonsTable({
   }
 }
 
-
     return (
         <>
             <div className="overflow-x-auto rounded-2xl border bg-white shadow-sm">
@@ -204,7 +202,6 @@ export default function ManageLessonsTable({
 
                     </thead>
 
-
                     <tbody>
 
                         {lessons.length === 0 ? (
@@ -241,7 +238,6 @@ export default function ManageLessonsTable({
 
                                     </td>
 
-
                                     <td className="px-5 py-4">
 
                                         <div className="font-medium">
@@ -255,7 +251,6 @@ export default function ManageLessonsTable({
 
                                     </td>
 
-
                                     <td className="px-5 py-4">
 
                                         <Chip
@@ -266,24 +261,7 @@ export default function ManageLessonsTable({
                                         </Chip>
 
                                     </td>
-
-                                    {/* 
-                                    <td className="px-5 py-4">
-
-                                        <Chip
-                                            size="sm"
-                                            color={
-                                                lesson.visibility ===
-                                                    "Public"
-                                                    ? "success"
-                                                    : "default"
-                                            }
-                                            variant="flat"
-                                        >
-                                            {lesson.visibility}
-                                        </Chip>
-
-                                    </td> */}
+                                    
                                     <td className="px-5 py-4">
                                         <Chip
                                             size="sm"
@@ -310,7 +288,6 @@ export default function ManageLessonsTable({
                                             {lesson.accessLevel || "Free"}
                                         </Chip>
                                     </td>
-
 
                                     <td className="px-5 py-4">
 
@@ -351,7 +328,6 @@ export default function ManageLessonsTable({
                                         </div>
 
                                     </td>
-
 
                                     <td className="px-5 py-4">
 
@@ -417,7 +393,6 @@ export default function ManageLessonsTable({
                                                     : "Review"}
                                             </Button>
 
-
                                             <Button
                                                 size="sm"
                                                 variant="flat"
@@ -447,71 +422,7 @@ export default function ManageLessonsTable({
 
             </div>
 
-
-            {/* Delete Confirmation */}
-
-            {/* <Modal
-        isOpen={
-          !!deleteTarget
-        }
-        onOpenChange={(open) => {
-          if (!open) {
-            setDeleteTarget(null);
-          }
-        }}
-      >
-
-        <Modal.Content>
-
-          <Modal.Header>
-            Delete Lesson
-          </Modal.Header>
-
-          <Modal.Body>
-
-            <p>
-              Are you sure you want to
-              delete{" "}
-              <strong>
-                {deleteTarget?.title}
-              </strong>
-              ?
-            </p>
-
-            <p className="mt-2 text-sm text-danger">
-              This action cannot be
-              undone.
-            </p>
-
-          </Modal.Body>
-
-          <Modal.Footer>
-
-            <Button
-              variant="light"
-              onPress={() =>
-                setDeleteTarget(null)
-              }
-            >
-              Cancel
-            </Button>
-
-            <Button
-              color="danger"
-              isLoading={
-                updatingId ===
-                deleteTarget?._id
-              }
-              onPress={handleDelete}
-            >
-              Delete Lesson
-            </Button>
-
-          </Modal.Footer>
-
-        </Modal.Content>
-
-      </Modal> */}
+            {/* Delete Confirmation */}         
 
             <Modal>
                 <Modal.Backdrop

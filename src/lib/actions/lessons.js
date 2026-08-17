@@ -24,8 +24,6 @@ export async function createLesson(lesson) {
   return res.json();
 }
 
-
-
 export async function getLessons(filters = {}) {
   // const token = await getTokenServer();
   const params = new URLSearchParams();
@@ -52,15 +50,7 @@ export async function getLessons(filters = {}) {
 
   const res = await fetch(url, {
     cache: "no-store",
-  });
-
-  // if (!res.ok) {
-  //   throw new Error(
-  //     "Failed to fetch lessons"
-  //   );
-  // }
-
-  // return res.json();
+  });  
 
   const data = await res.json();
 
@@ -73,7 +63,6 @@ export async function getLessons(filters = {}) {
   return data;
 
 }
-
 
 export async function getLesson(id) {
 
@@ -89,10 +78,8 @@ export async function getLesson(id) {
   console.log("API returned:", lesson);
 
   return lesson;
-
   // return res.json();
 }
-
 
 export async function getUserLessonCount(userId) {
   const res = await fetch(
@@ -121,9 +108,6 @@ export async function toggleLike(id, userId) {
   return res.json();
 }
 
-
-
-
 export async function toggleFavorite(lessonId, userId, saved) {
   const res = await fetch(`${baseUrl}/api/favorites`, {
     method: saved ? "DELETE" : "POST",
@@ -148,7 +132,6 @@ export async function toggleFavorite(lessonId, userId, saved) {
 
   return data;
 }
-
 
 // Add favorite
 export async function addFavorite(data) {
@@ -204,23 +187,6 @@ export async function getFavoriteCount(lessonId) {
 }
 
 
-// Report lesson
-// export async function reportLesson(data) {
-//   const res = await fetch(`${baseUrl}/api/reports`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   });
-
-//   if (!res.ok) {
-//     throw new Error("Failed to report lesson");
-//   }
-
-//   return res.json();
-// }
-
 export async function reportLesson(reportData) {
   const res = await fetch(`${baseUrl}/api/reports`, {
     method: "POST",
@@ -247,7 +213,7 @@ return result;
 }
 
 // Comment section
-// Create comment
+
 export async function createComment(commentData) {
   const res = await fetch(
     `${baseUrl}/api/comments`,
@@ -270,7 +236,6 @@ export async function createComment(commentData) {
 
   return result;
 }
-
 
 export async function getComments(lessonId) {
   const res = await fetch(
@@ -402,7 +367,6 @@ export async function getMyLessons(userId) {
   return result;
 }
 
-
 export async function updateLesson(id, lesson) {
   const res = await fetch(
     `${baseUrl}/api/dashboard/my-lessons/${id}`,
@@ -444,27 +408,6 @@ export async function deleteLesson(id) {
 
   return result;
 }
-
-
-// export async function getAdminDashboardData() {
-//   const res = await fetch(
-//     `${baseUrl}/api/admin/dashboard`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   if (!res.ok) {
-//     const result = await res.json();
-
-//     throw new Error(
-//       result.message ||
-//         "Failed to load admin dashboard"
-//     );
-//   }
-
-//   return res.json();
-// }
 
 export async function getAdminDashboardData() {
   const res = await fetch(
@@ -517,7 +460,6 @@ export async function getAdminUsers() {
 
   return data;
 }
-
 
 export async function updateUserRole(
   userId,
@@ -615,7 +557,6 @@ export async function getAdminLessons(
   return data;
 }
 
-
 export async function deleteAdminLesson(
   lessonId
 ) {
@@ -637,7 +578,6 @@ export async function deleteAdminLesson(
 
   return data;
 }
-
 
 export async function updateAdminLesson(
   lessonId,
@@ -735,26 +675,6 @@ export async function updateLessonAccessLevel(
 
   return data;
 }
-
-// export async function getReportedLessons() {
-//   const res = await fetch(
-//     `${baseUrl}/api/admin/reported-lessons`,
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   const data = await res.json();
-
-//   if (!res.ok) {
-//     throw new Error(
-//       data.message ||
-//         "Failed to load reported lessons"
-//     );
-//   }
-
-//   return data;
-// }
 
 // Get Reports
 export async function getReportedLessons() {

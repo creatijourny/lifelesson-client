@@ -28,10 +28,7 @@ export default async function UpdateLessonPage({
   if (!lesson) {
     notFound();
   }
-  // console.log("Lesson:", lesson);
-// console.log("Lesson author:", lesson.authorId);
-// console.log("Session user:", session.user.id);
-  // Owner only
+  
   if (
     lesson.authorId !==
     session.user.id

@@ -42,7 +42,6 @@ export default function ManageLessonsFilters({
         </option>
       </select>
 
-
       <select
         value={filters.visibility}
         onChange={(e) =>
@@ -65,7 +64,6 @@ export default function ManageLessonsFilters({
           Private
         </option>
       </select>
-
 
       <select
         value={filters.flagged}
