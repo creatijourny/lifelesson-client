@@ -495,10 +495,14 @@ export async function getAdminDashboardData() {
 
 // Admin - Manage Users
 export async function getAdminUsers() {
+  const token = await getTokenServer();
   const res = await fetch(
     `${baseUrl}/api/admin/users`,
     {
       cache: "no-store",
+      headers: {
+        authorization: `Bearer ${token}`
+      },
     }
   );
 
@@ -519,6 +523,8 @@ export async function updateUserRole(
   userId,
   role
 ) {
+  const token = await getTokenServer();
+
   const res = await fetch(
     `${baseUrl}/api/admin/users/${userId}/role`,
     {
@@ -527,6 +533,7 @@ export async function updateUserRole(
       headers: {
         "Content-Type":
           "application/json",
+          authorization: `Bearer ${token}`
       },
 
       body: JSON.stringify({
@@ -551,6 +558,8 @@ export async function updateUserRole(
 export async function getAdminLessons(
   filters = {}
 ) {
+  const token = await getTokenServer();
+
   const params = new URLSearchParams();
 
   params.set(
@@ -588,6 +597,9 @@ export async function getAdminLessons(
     `${baseUrl}/api/admin/lessons?${params.toString()}`,
     {
       cache: "no-store",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }
   );
 

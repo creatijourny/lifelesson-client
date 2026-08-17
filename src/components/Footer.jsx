@@ -35,8 +35,8 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-default-50">
-      <div className="mx-auto max-w-7xl px-6 py-12">
+    <footer className="bg-slate-900 mt-16 text-gray-400 px-6 md:px-12 py-5">
+      <div className="mx-auto max-w-7xl px-6 py-6">
 
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
 
@@ -45,7 +45,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <BookOpenText className="h-8 w-8 text-primary" />
 
-              <span className="text-2xl font-bold text-default-900">
+              <span className="text-2xl font-bold text-default-50">
                 LifeLesson
               </span>
             </Link>

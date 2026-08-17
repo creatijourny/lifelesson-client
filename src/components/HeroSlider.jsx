@@ -35,7 +35,7 @@ const slides = [
 
 export default function HeroSlider() {
   return (
-    <section className="relative">
+    <section className="relative mt-1">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{
@@ -98,26 +98,7 @@ export default function HeroSlider() {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* <style jsx global>{`
-        .swiper-button-next,
-        .swiper-button-prev {
-          color: white;
-          transform: scale(0.8);
-        }
-
-        .swiper-pagination-bullet {
-          background: white;
-          opacity: 0.5;
-        }
-
-        .swiper-pagination-bullet-active {
-          opacity: 1;
-          background: white;
-          width: 30px;
-          border-radius: 9999px;
-        }
-      `}</style> */}
+    
     </section>
   );
 }
