@@ -17,6 +17,7 @@ import { stripe } from "@/lib/stripe";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { payment } from "@/lib/actions/payment";
+import SuccessSessionRefresh from "@/components/SuccessSessionRefresh";
 
 export default async function Success({
     searchParams,
@@ -60,6 +61,7 @@ export default async function Success({
 
     return (
         <section className="min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-amber-50 px-6">
+            <SuccessSessionRefresh />
 
             <Card className="max-w-2xl w-full rounded-3xl shadow-xl border border-green-200">
 

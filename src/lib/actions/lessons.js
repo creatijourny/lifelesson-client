@@ -64,6 +64,25 @@ export async function getLessons(filters = {}) {
 
 }
 
+// Featured lessons
+export async function getFeaturedLessons() {
+  const res = await fetch(
+    `${baseUrl}/api/featured-lessons`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      "Failed to fetch featured lessons"
+    );
+  }
+
+  return res.json();
+}
+
+
 export async function getLesson(id) {
 
   const res = await fetch(
@@ -752,20 +771,3 @@ export async function ignoreLessonReports(
   return data;
 }
 
-// Featured lessons
-export async function getFeaturedLessons() {
-  const res = await fetch(
-    `${baseUrl}/api/featured-lessons`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      "Failed to fetch featured lessons"
-    );
-  }
-
-  return res.json();
-}

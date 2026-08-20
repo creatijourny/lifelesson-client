@@ -34,7 +34,7 @@ const slides = [
 
 export default function HeroSlider() {
   return (
-    <section className="relative mt-1">
+    <section className="relative mt-2">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{
@@ -50,7 +50,7 @@ export default function HeroSlider() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`relative flex h-full items-center bg-gradient-to-br ${slide.color} overflow-hidden`}//             
+              className={`relative flex h-full items-center py-8 md:py-10 bg-gradient-to-br ${slide.color} overflow-hidden`}//             
             >
               {/* Decorative Blurs */}
               {/* Premium ambient glow */}
@@ -64,7 +64,7 @@ export default function HeroSlider() {
               <div className="relative z-10 mx-auto max-w-7xl px-6">
                 <div className="max-w-3xl rounded-3xl border border-white/15 bg-white/8 p-8 backdrop-blur-xl shadow-2xl md:p-10">
                  
-                  <span className="inline-flex items-center gap-2 rounded-full border border-sky-200/30 bg-white/12 px-4 py-2 text-sm font-semibold text-sky-100 backdrop-blur-md">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-sky-200/30 bg-white/12 px-4 py-3 text-sm font-semibold text-sky-100 backdrop-blur-md">
                     ✨ Digital Life Lessons
                   </span>
 
@@ -76,7 +76,7 @@ export default function HeroSlider() {
                     {slide.subtitle}
                   </p>
 
-                  <div className="mt-10 flex flex-wrap gap-4">
+                  <div className="mt-6 flex flex-wrap gap-4">
                     <Link
                       href="/login"
                       className="rounded-2xl bg-white px-8 py-4 font-semibold text-slate-800 shadow-lg transition duration-300 hover:-translate-y-1 hover:bg-slate-100 hover:shadow-xl"
